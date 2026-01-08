@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprint 1: Service Reliability</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --status-review-text: #854D0E;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: "Inter", sans-serif;
+    }
+
+    .bg-bg-page { background-color: var(--bg-page); }
+    .bg-bg-surface { background-color: var(--bg-surface); }
+    .text-text-primary { color: var(--text-primary); }
+    .text-text-secondary { color: var(--text-secondary); }
+    .text-text-muted { color: var(--text-muted); }
+    .border-border { border-color: var(--border); }
+    .hover\:bg-status-review-text:hover { background-color: var(--status-review-text); }
+  </style>
+</head>
+<body>
+  <div class="w-full h-full flex items-center justify-center p-8 font-sans text-[var(--text-primary)]">
+    <div
+      class="w-[1000px] flex flex-col rounded-[4px] border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden shadow-[var(--shadow-float)]"
+      style="height: 600px;"
+    >
+      <div class="h-12 border-b border-[var(--border)] px-5 flex items-center justify-between bg-[#FAFAFA] shrink-0">
+        <div class="flex items-center gap-3">
+          <span class="text-lg">🔨</span>
+          <span class="text-sm font-semibold text-[var(--text-primary)]">Sprint 1: Service Reliability</span>
+          <span class="px-1.5 py-0.5 rounded-[2px] bg-[#DCFCE7] text-[#166534] text-[10px] font-mono uppercase tracking-wider">
+            Active
+          </span>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-status-review-text transition-colors cursor-pointer"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-green-400 transition-colors cursor-pointer"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-red-400 transition-colors cursor-pointer"></div>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-x-auto p-6 bg-[var(--bg-surface)]">
+        <div class="flex gap-4 h-full min-w-max">
+          <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+            <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+              <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">Backlog</span>
+              <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+            </div>
+            <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-101</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Route coverage map + escalation rules</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Coverage</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">3</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #8B5CF6;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-102</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Parts inventory critical path review</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Supply</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">5</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #3B82F6;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+            <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+              <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">In Progress</span>
+              <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+            </div>
+            <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-103</span>
+                  <span class="px-1.5 py-0.5 bg-red-50 text-red-600 border border-red-100 text-[9px] font-bold rounded uppercase tracking-wide animate-pulse">Blocked</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">SLA audit + ticket aging cleanup</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Reliability</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">5</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #3B82F6;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-104</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Technician training matrix + QA checks</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Training</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">8</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #10B981;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+            <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+              <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">Review</span>
+              <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+            </div>
+            <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-105</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Preventive maintenance schedule</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Maintenance</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">2</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #F59E0B;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-106</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Vendor SLA governance playbook</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Vendor</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">5</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #EC4899;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+            <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+              <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">Done</span>
+              <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">1</span>
+            </div>
+            <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+              <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-mono text-[var(--text-secondary)]">OPS-100</span>
+                </div>
+                <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Service reliability baseline report</h4>
+                <div class="flex items-center justify-between mt-auto">
+                  <div class="flex items-center gap-2">
+                    <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Baseline</span>
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-bg-page text-[10px] font-mono text-text-secondary" title="Story Points">3</span>
+                  </div>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #F59E0B;" title="Ops Lead">OL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="h-8 border-t border-[var(--border)] bg-[#FAFAFA] px-4 flex items-center justify-between text-[10px] text-[var(--text-secondary)]">
+        <div class="flex gap-4">
+          <span>Velocity: <strong class="text-[var(--text-primary)]">18pts</strong> / week</span>
+          <span>Completion: <strong class="text-[var(--text-primary)]">35%</strong></span>
+        </div>
+        <div class="font-mono">UPDATED JUST NOW</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

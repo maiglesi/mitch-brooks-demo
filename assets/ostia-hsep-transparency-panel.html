@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ostia Investor Memo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex items-center justify-center w-full h-full p-8 bg-transparent">
+    <div
+      class="w-[850px] bg-white border border-[#EAEAEA] rounded shadow-[0_20px_40px_-10px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500"
+      style="box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12);"
+    >
+      <div class="h-12 border-b border-[#EAEAEA] bg-[#FAFAFA] px-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="p-1.5 bg-blue-50 rounded text-blue-600">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-[#1C1B1A] font-sans">Ostia Investor Memo</span>
+          <span class="text-[10px] font-mono uppercase tracking-wider bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">PRE-SEED DRAFT</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-yellow-400 transition-colors" aria-label="Minimize"></button>
+          <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-green-400 transition-colors" aria-label="Maximize"></button>
+          <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-red-400 transition-colors" aria-label="Close"></button>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-8 font-sans">
+        <div class="flex justify-between items-start mb-8 pb-6 border-b border-[#EAEAEA]">
+          <div>
+            <h1 class="text-2xl font-semibold text-[#1C1B1A] mb-1">Ostia Investor Memo</h1>
+            <div class="flex items-center gap-2 text-gray-500 text-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span>Pre-seed raise brief (Jan 2026)</span>
+            </div>
+          </div>
+          <div class="flex flex-col items-end">
+            <span class="text-xs font-mono text-gray-400 uppercase tracking-widest mb-1">Overall Status</span>
+            <div class="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-green-50 text-green-700 border border-green-100">
+              <span class="w-2 h-2 rounded-full bg-green-500"></span>
+              on track
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">Raise</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">$2.5M Pre-seed</div>
+          </div>
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">Runway</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">18 months</div>
+          </div>
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">PLG Budget</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">$1.0M</div>
+          </div>
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">LOI Seats</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">30 -> 100+</div>
+          </div>
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">Seat Price</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">$10k / year</div>
+          </div>
+          <div class="border border-[#EAEAEA] rounded-lg p-4">
+            <div class="text-xs font-mono uppercase text-gray-400 mb-1">Demo Scale</div>
+            <div class="text-xl font-semibold text-[#1C1B1A]">100k demos</div>
+          </div>
+        </div>
+
+        <section class="mb-8">
+          <h3 class="text-sm font-semibold text-[#1C1B1A] uppercase tracking-wide mb-4 flex items-center gap-2">
+            <span class="w-1 h-4 bg-green-500 rounded-full"></span>
+            Traction & Signals
+          </h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">LOIs for 30 seats, growing to 100+ across construction, CPA firms, MSPs, retail, consultants, and startups.</span>
+            </li>
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">Near-perfect LOI conversion after one week of tailored demos with real deliverables.</span>
+            </li>
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">Time-to-value achieved in 20-30 minutes with 24-hour access.</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h3 class="text-sm font-semibold text-[#1C1B1A] uppercase tracking-wide mb-4 flex items-center gap-2">
+            <span class="w-1 h-4 bg-blue-500 rounded-full"></span>
+            Launch Plan
+          </h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">Launch late Jan / early Feb and bring team full-time to finalize product.</span>
+            </li>
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">Scale the PLG engine to 100k demos with 2% min and 7% target conversion.</span>
+            </li>
+            <li class="flex items-start gap-3 group">
+              <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </div>
+              <span class="text-gray-700 text-sm leading-relaxed">Verticalize quickly with three-person pods per industry using the agent-native platform.</span>
+            </li>
+          </ul>
+        </section>
+
+        <div class="grid grid-cols-2 gap-8">
+          <section class="bg-amber-50/50 rounded-lg p-5 border border-amber-100/50">
+            <h3 class="text-sm font-semibold text-amber-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              Risks & Mitigations
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex flex-col gap-1">
+                <span class="text-gray-800 text-sm font-medium">Competitors reaching customers first.</span>
+                <span class="text-xs font-mono text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded w-fit">Impact: High</span>
+              </li>
+              <li class="flex flex-col gap-1">
+                <span class="text-gray-800 text-sm font-medium">Scaling demo delivery while maintaining quality and speed.</span>
+                <span class="text-xs font-mono text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded w-fit">Impact: Medium</span>
+              </li>
+            </ul>
+          </section>
+
+          <section class="bg-blue-50/50 rounded-lg p-5 border border-blue-100/50">
+            <h3 class="text-sm font-semibold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              IC Questions
+            </h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 mt-1">•</span>
+                <span class="text-gray-700 text-sm leading-relaxed">Which ICPs get the first 100k demos (roles, titles, segments)?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 mt-1">•</span>
+                <span class="text-gray-700 text-sm leading-relaxed">What is the per-demo delivery cost (compute + human ops) and expected gross margin?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 mt-1">•</span>
+                <span class="text-gray-700 text-sm leading-relaxed">What ARR outcomes do we expect at 2% and 7% conversion?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 mt-1">•</span>
+                <span class="text-gray-700 text-sm leading-relaxed">What security or compliance requirements are required for early pilots?</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <div class="h-16 border-t border-[#EAEAEA] px-8 flex items-center justify-between bg-[#FAFAFA]/50 shrink-0">
+        <div class="text-xs text-gray-400">
+          Last updated by <span class="font-medium text-gray-600">COO Agent</span> just now
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-[#1C1B1A] bg-white border border-[#EAEAEA] rounded shadow-sm hover:shadow transition-all">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export PDF
+          </button>
+          <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 hover:bg-black rounded shadow-sm hover:shadow transition-all">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            Share with IC
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

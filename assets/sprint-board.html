@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitch Brooks - Service Reliability Sprint Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+      <!-- Artifact Container Shell -->
+      <div 
+        class="w-[1000px] flex flex-col rounded-[4px] border border-[var(--border)] bg-[var(--bg-surface)] overflow-hidden shadow-[var(--shadow-float)]"
+        style="height: 600px;"
+      >
+        <!-- Artifact Header -->
+        <div class="h-12 border-b border-[var(--border)] px-5 flex items-center justify-between bg-[#FAFAFA] shrink-0">
+          <div class="flex items-center gap-3">
+            <span class="text-lg">🔨</span>
+            <span class="text-sm font-semibold text-[var(--text-primary)]">Sprint 24: Core Infrastructure Reliability</span>
+            <span class="px-1.5 py-0.5 rounded-[2px] bg-[#DCFCE7] text-[#166534] text-[10px] font-mono uppercase tracking-wider">
+              Active
+            </span>
+          </div>
+          <div class="flex gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-yellow-400 transition-colors cursor-pointer"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-green-400 transition-colors cursor-pointer"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB] hover:bg-red-400 transition-colors cursor-pointer"></div>
+          </div>
+        </div>
+
+        <!-- Artifact Body: Kanban Board -->
+        <div class="flex-1 overflow-x-auto p-6 bg-[var(--bg-surface)]">
+          <div class="flex gap-4 h-full min-w-max">
+            
+            <!-- Column: Backlog -->
+            <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+                <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+                  <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                    Backlog
+                  </span>
+                  <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+                </div>
+                <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1102</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Optimize DB Connection Pool</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Backend</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">3</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #8B5CF6;" title="Dana Lee">DL</div>
+                      </div>
+                    </div>
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1105</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Implement Circuit Breaker for Payments</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Billing</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">5</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #3B82F6;" title="Alice Chen">AC</div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column: In Progress -->
+            <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+                <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+                  <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                    In Progress
+                  </span>
+                  <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+                </div>
+                <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1024</span>
+                         <span class="px-1.5 py-0.5 bg-red-50 text-red-600 border border-red-100 text-[9px] font-bold rounded uppercase tracking-wide animate-pulse">Blocked</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Scale Worker Nodes for Q1 Traffic</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Infra</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">8</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #3B82F6;" title="Alice Chen">AC</div>
+                      </div>
+                    </div>
+                     <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1029</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Automated Failover Testing Script</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">DevOps</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">5</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #10B981;" title="Bob Smith">BS</div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column: Review -->
+            <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+                <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+                  <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                    Review
+                  </span>
+                  <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">2</span>
+                </div>
+                <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1045</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">SLA Monitoring Dashboard V1</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Observability</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">3</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #F59E0B;" title="Charlie Kim">CK</div>
+                      </div>
+                    </div>
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-1033</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Security Audit of New VPC</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">SecOps</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">5</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #EC4899;" title="Eve Torres">ET</div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column: Done -->
+            <div class="flex flex-col w-64 h-full rounded-md bg-[var(--bg-page)] border border-[var(--border)]">
+                <div class="p-3 border-b border-[var(--border)] flex justify-between items-center">
+                  <span class="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                    Done
+                  </span>
+                  <span class="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--border)] px-1.5 rounded">1</span>
+                </div>
+                <div class="flex-1 p-2 flex flex-col gap-2 overflow-y-auto">
+                    <!-- Ticket -->
+                    <div class="group p-3 bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing">
+                      <div class="flex justify-between items-start mb-2">
+                         <span class="text-[10px] font-mono text-[var(--text-secondary)]">REL-0998</span>
+                      </div>
+                      <h4 class="text-sm font-medium leading-tight mb-3 text-[var(--text-primary)]">Redis Cache Upgrade</h4>
+                      <div class="flex items-center justify-between mt-auto">
+                        <div class="flex items-center gap-2">
+                          <span class="px-1.5 py-0.5 rounded bg-[var(--bg-page)] border border-[var(--border)] text-[10px] text-[var(--text-secondary)]">Backend</span>
+                          <span class="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--bg-page)] text-[10px] font-mono text-[var(--text-secondary)]" title="Story Points">3</span>
+                        </div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center text-[9px] text-white font-medium ring-2 ring-white" style="background-color: #F59E0B;" title="Charlie Kim">CK</div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        
+        <!-- Footer/Meta -->
+        <div class="h-8 border-t border-[var(--border)] bg-[#FAFAFA] px-4 flex items-center justify-between text-[10px] text-[var(--text-secondary)]">
+          <div class="flex gap-4">
+             <span>Velocity: <strong class="text-[var(--text-primary)]">29pts</strong> / week</span>
+             <span>Completion: <strong class="text-[var(--text-primary)]">58%</strong></span>
+          </div>
+          <div class="font-mono">UPDATED JUST NOW</div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>

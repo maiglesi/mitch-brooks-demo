@@ -1,0 +1,1253 @@
+/*
+ * MyCOO Demo Application Logic
+ */
+
+const CANVAS_PADDING = 24;
+const CANVAS_GAP = 24;
+const CANVAS_ROW_HEIGHT = 340;
+const CANVAS_TWO_COLUMN_MIN_WIDTH = 980;
+const CANVAS_MIN_COLUMN_WIDTH = 320;
+const CANVAS_DOCK_HEIGHT = 0;
+const CANVAS_DOCK_OFFSET = 0;
+const DEFAULT_WINDOW_SIZE = { width: 420, height: 260 };
+const EXPERIENCE_LOADING_DELAY = 5000;
+const SCENE_STACK_MIN_WIDTH = 1200;
+
+const App = {
+  currentSlideIndex: 0,
+  mode: "slides",
+  chatQueue: [],
+  isTyping: false,
+  experienceState: {
+    currentLayerIndex: 0,
+    path: [],
+    isRunning: false,
+    activeDecisionId: null,
+    activity: [],
+  },
+  experienceTimers: [],
+  sceneLayoutFrame: null,
+
+  init: () => {
+    // 0. Setup Loading Screen
+    const investorNameEl = document.getElementById("welcome-investor-name");
+    if (investorNameEl) {
+        // Use INVESTOR_NAME from data.js if available, else default
+        const name = (typeof INVESTOR_NAME !== 'undefined') ? INVESTOR_NAME : "Partner";
+        investorNameEl.textContent = name;
+    }
+
+    const startDemo = () => {
+        App.renderSlide(0);
+        document.addEventListener("keydown", App.handleKeydown);
+    };
+
+    const overlay = document.getElementById("welcome-overlay");
+    if (overlay) {
+        setTimeout(() => {
+            overlay.classList.add("hidden");
+            // Allow keyboard nav only after the loading screen clears
+            startDemo();
+        }, EXPERIENCE_LOADING_DELAY);
+    } else {
+        // If no loading screen (fallback), enable nav immediately
+        startDemo();
+    }
+
+    // Voice Orb interaction
+    const orb = document.getElementById("voice-orb");
+    if (orb) {
+      orb.addEventListener("click", () => {
+        orb.classList.toggle("speaking");
+        // Simulate listening state if needed
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      App.scheduleSceneLayout();
+    });
+  },
+
+  handleKeydown: (e) => {
+    if (App.mode === "experience") {
+      if (e.key === "Escape") {
+        App.closeViewer();
+      }
+      return;
+    }
+    if (e.key === "ArrowRight" || e.key === " ") {
+      App.nextSlide();
+    } else if (e.key === "ArrowLeft") {
+      App.prevSlide();
+    } else if (e.key === "Escape") {
+      App.closeViewer();
+    }
+  },
+
+  nextSlide: () => {
+    if (App.currentSlideIndex < SLIDES.length - 1) {
+      App.renderSlide(App.currentSlideIndex + 1);
+    } else if (typeof EXPERIENCE !== "undefined") {
+      App.startExperience();
+    }
+  },
+
+  prevSlide: () => {
+    if (App.currentSlideIndex > 0) {
+      App.renderSlide(App.currentSlideIndex - 1);
+    }
+  },
+
+  renderSlide: (index) => {
+    App.mode = "slides";
+    App.clearExperienceTimers();
+    document.body.classList.remove("experience-active");
+    App.currentSlideIndex = index;
+    const slide = SLIDES[index];
+    const container = document.getElementById("canvas-stage");
+
+    // 1. Render Content
+    if (slide.type === "interactive" && Components[slide.component]) {
+      container.innerHTML = `
+                <div class="slide-card interactive">
+                    ${Components[slide.component]()}
+                </div>
+            `;
+    } else {
+      container.innerHTML = `
+                <div class="slide-card">
+                    ${slide.content}
+                </div>
+            `;
+    }
+
+    // 2. Update Agents
+    App.updateAgents(slide.agents);
+
+    // 3. Queue COO Message
+    if (slide.cooMessage) {
+      App.queueMessage(slide.cooMessage);
+    }
+  },
+
+  updateAgents: (agents) => {
+    const list = document.getElementById("agent-list");
+    const count = document.getElementById("agent-count");
+    const isActivityMode = count && count.dataset.mode === "activity";
+
+    if (list) {
+      list.innerHTML = "";
+    }
+
+    if (isActivityMode) {
+      return;
+    }
+
+    if (count) {
+      count.textContent = `(${agents ? agents.length : 0} Agents)`;
+    }
+
+    if (!agents || !list) return;
+
+    agents.forEach((agent) => {
+      const el = document.createElement("div");
+      el.className = `agent-card ${agent.status === "working" ? "working" : ""}`;
+      el.innerHTML = `
+                <div class="agent-header">
+                    <span class="text-sm font-medium">${agent.name}</span>
+                    <span class="status-badge status-${agent.status}">${agent.status}</span>
+                </div>
+                <div class="agent-body">
+                    <div class="text-xs text-secondary">${agent.statusText}</div>
+                    ${
+                      agent.status === "working" && agent.progress
+                        ? `
+                        <div class="progress-line">
+                            <div class="progress-fill animate-progress" style="width: ${agent.progress}%"></div>
+                        </div>
+                    `
+                        : ""
+                    }
+                    <span class="model-badge bg-${agent.model}">${agent.model.toUpperCase()}</span>
+                </div>
+            `;
+      list.appendChild(el);
+    });
+  },
+
+  queueMessage: (message, append = false) => {
+    if (!message) return;
+    const payload =
+      typeof message === "string"
+        ? { text: message }
+        : message;
+    if (!payload.text) return;
+    if (append) {
+      App.chatQueue.push(payload);
+    } else {
+      // Clear previous queue if user skipped ahead fast
+      App.chatQueue = [payload];
+    }
+    if (!App.isTyping) {
+      App.processChatQueue();
+    }
+  },
+
+  processChatQueue: async () => {
+    if (App.chatQueue.length === 0) {
+      App.isTyping = false;
+      return;
+    }
+
+    App.isTyping = true;
+    const entry = App.chatQueue.shift();
+    const text = entry.text;
+
+    // Create bubble structure
+    const container = document.getElementById("chat-container");
+    const wrapper = document.createElement("div");
+    wrapper.className = "chat-msg";
+    wrapper.innerHTML = `
+            <span class="label">COO <span class="opacity-50">Now</span></span>
+            <div class="msg-bubble coo"></div>
+        `;
+    container.appendChild(wrapper);
+    container.scrollTop = container.scrollHeight;
+
+    const bubble = wrapper.querySelector(".msg-bubble");
+
+    // Typewriter effect
+    await App.typeText(bubble, text);
+    if (entry.afterRender) {
+      entry.afterRender(bubble, wrapper);
+    }
+
+    App.processChatQueue();
+  },
+
+  typeText: (element, text) => {
+    return new Promise((resolve) => {
+      let i = 0;
+      element.classList.add("typing-cursor");
+
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          const container = document.getElementById("chat-container");
+          container.scrollTop = container.scrollHeight;
+          setTimeout(type, 15); // Typing speed
+        } else {
+          element.classList.remove("typing-cursor");
+          resolve();
+        }
+      }
+      type();
+    });
+  },
+
+  addUserMessage: (text) => {
+    if (!text) return;
+    const container = document.getElementById("chat-container");
+    const wrapper = document.createElement("div");
+    wrapper.className = "chat-msg";
+    wrapper.innerHTML = `
+            <span class="label">DIRECTOR <span class="opacity-50">Now</span></span>
+            <div class="msg-bubble user">${text}</div>
+        `;
+    container.appendChild(wrapper);
+    container.scrollTop = container.scrollHeight;
+  },
+
+  clearExperienceTimers: () => {
+    App.experienceTimers.forEach((timer) => clearTimeout(timer));
+    App.experienceTimers = [];
+  },
+
+  setExperienceTimer: (fn, delay) => {
+    const timer = setTimeout(fn, delay);
+    App.experienceTimers.push(timer);
+    return timer;
+  },
+
+  startExperience: () => {
+    if (typeof EXPERIENCE === "undefined") return;
+    App.mode = "experience";
+    App.clearExperienceTimers();
+    App.experienceState = {
+      currentLayerIndex: 0,
+      path: [],
+      isRunning: false,
+      activity: [],
+    };
+    document.body.classList.add("experience-active");
+    App.renderExperienceLoading();
+    App.setExperienceTimer(() => {
+      if (EXPERIENCE.introMessage) {
+        App.queueMessage(EXPERIENCE.introMessage);
+      }
+      App.renderExperienceLayer(0);
+    }, EXPERIENCE_LOADING_DELAY);
+  },
+
+  renderExperienceLoading: () => {
+    const stage = document.getElementById("canvas-stage");
+    if (!stage) return;
+    stage.innerHTML = `
+            <div class="experience-stage experience-loading">
+                <div class="loading-text">Preparing personalized demo for ${INVESTOR_PROFILE.name}</div>
+            </div>
+        `;
+
+    App.experienceState.activity = [];
+    App.renderActivityLog();
+
+    const loadingAgents = (EXPERIENCE.idleAgents || []).map((agent, index) => ({
+      ...agent,
+      status: "working",
+      progress: 45 + index * 15,
+      statusText: "Synthesizing demo context",
+    }));
+    App.updateAgents(loadingAgents);
+  },
+
+  renderExperienceLayer: (index) => {
+    const layer = EXPERIENCE.layers[index];
+    if (!layer) return;
+
+    App.mode = "experience";
+    App.clearExperienceTimers();
+    App.experienceState.currentLayerIndex = index;
+    App.experienceState.isRunning = false;
+    App.experienceState.activity = [];
+    document.body.classList.add("experience-active");
+
+    const stage = document.getElementById("canvas-stage");
+    stage.innerHTML = `
+            <div class="experience-stage">
+                <div class="experience-header">
+                    <div>
+                        <span class="label">LIVE EXPERIENCE</span>
+                        <div class="experience-title">${EXPERIENCE.title}</div>
+                        <div class="experience-subtitle">${EXPERIENCE.subtitle}</div>
+                    </div>
+                    <div class="experience-meta">
+                        <div class="meta-pill">Demo ${index + 1} of ${EXPERIENCE.layers.length}</div>
+                        <div class="meta-pill">${INVESTOR_PROFILE.name} | ${INVESTOR_PROFILE.firm}</div>
+                    </div>
+                </div>
+
+                <div class="layer-panel">
+                    ${layer.statusLabel ? `<div class="label mb-2 text-[var(--accent-blue)]">${layer.statusLabel}</div>` : ""}
+                    <div class="layer-title">Demo ${index + 1}: ${layer.title}</div>
+                    <div class="layer-subtitle">${layer.subtitle}</div>
+                    <div class="layer-prompt">${layer.prompt}</div>
+                </div>
+
+                <div class="experience-workspace">
+                    <div class="experience-canvas" id="experience-canvas">
+                        <div class="canvas-content" id="canvas-content"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+    App.renderExperienceScene(layer);
+    App.renderActivityLog();
+
+    const idleAgents = layer.idleAgents || EXPERIENCE.idleAgents || [];
+    App.updateAgents(idleAgents);
+
+    if (layer.introMessage) {
+      App.queueMessage(layer.introMessage, true);
+    }
+
+    App.runLayerDemo(layer);
+  },
+
+  renderExperienceScene: (layer) => {
+    const canvas = document.getElementById("canvas-content");
+    if (!canvas) return;
+    const sceneKey = layer.scene;
+    if (sceneKey && Components[sceneKey]) {
+      canvas.innerHTML = Components[sceneKey]();
+      App.bindSceneInteractions(sceneKey);
+      App.scheduleSceneLayout();
+      return;
+    }
+
+    canvas.innerHTML = `
+            <div class="canvas-placeholder">
+                <div class="artifact-card canvas-placeholder-main">
+                    <div class="artifact-header">
+                        <div class="artifact-title-group">
+                            <span class="artifact-title">Demo Scene</span>
+                            <span class="artifact-badge">PENDING</span>
+                        </div>
+                    </div>
+                    <div class="artifact-body">
+                        <div class="artifact-section-title">Scene not available</div>
+                        <p class="text-sm text-secondary">No renderer found for ${sceneKey || "this layer"}.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+  },
+
+  bindSceneInteractions: (sceneKey) => {
+    if (sceneKey === "SceneOstiaMemo") {
+      App.bindOstiaMemoTabs();
+    }
+  },
+
+  bindOstiaMemoTabs: () => {
+    const container = document.getElementById("canvas-content");
+    if (!container) return;
+    const tabs = Array.from(
+      container.querySelectorAll(".memo-tab")
+    );
+    const panels = Array.from(
+      container.querySelectorAll("[data-ostia-panel]")
+    );
+    if (!tabs.length || !panels.length) return;
+
+    const setActive = (key) => {
+      tabs.forEach((tab) =>
+        tab.classList.toggle("active", tab.dataset.ostiaTab === key)
+      );
+      panels.forEach((panel) =>
+        panel.classList.toggle("active", panel.dataset.ostiaPanel === key)
+      );
+    };
+
+    const firstKey = tabs[0].dataset.ostiaTab;
+    if (firstKey) {
+      setActive(firstKey);
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const key = tab.dataset.ostiaTab;
+        if (key) {
+          setActive(key);
+        }
+      });
+    });
+  },
+
+  scheduleSceneLayout: () => {
+    if (App.sceneLayoutFrame) {
+      cancelAnimationFrame(App.sceneLayoutFrame);
+    }
+    App.sceneLayoutFrame = requestAnimationFrame(App.updateSceneLayout);
+  },
+
+  updateSceneLayout: () => {
+    const canvas = document.getElementById("experience-canvas");
+    if (!canvas) return;
+    const grids = Array.from(canvas.querySelectorAll(".scene-grid"));
+    if (!grids.length) return;
+    const canvasWidth = canvas.clientWidth;
+    if (!canvasWidth) return;
+    const shouldStack = canvasWidth < SCENE_STACK_MIN_WIDTH;
+    grids.forEach((grid) => {
+      grid.classList.toggle("stacked", shouldStack);
+    });
+  },
+
+  renderExperiencePath: () => {
+    const pathEl = document.getElementById("experience-path");
+    const historyEl = document.getElementById("decision-history");
+
+    if (historyEl) {
+      if (App.experienceState.path.length === 0) {
+        historyEl.classList.add("empty");
+        historyEl.innerHTML = "";
+      } else {
+        historyEl.classList.remove("empty");
+        historyEl.innerHTML = `
+                <div class="decision-history-label">Recent Decisions</div>
+                <div class="decision-history-chips">
+                    ${App.experienceState.path
+                      .slice(-3)
+                      .map(
+                        (item, index) =>
+                          `<span class="decision-history-chip">${item}</span>`
+                      )
+                      .join("")}
+                </div>
+            `;
+      }
+    }
+
+    if (!pathEl) return;
+
+    if (App.experienceState.path.length === 0) {
+      pathEl.innerHTML = `<div class="path-empty">Path will appear here as you make decisions.</div>`;
+      return;
+    }
+
+    pathEl.innerHTML = App.experienceState.path
+      .map(
+        (item, index) =>
+          `<div class="path-chip">${index + 1}. ${item}</div>`
+      )
+      .join("");
+  },
+
+  renderDirectorBar: () => {
+    return `
+            <div class="director-bar-wrapper">
+                <div class="director-input">
+                    <input type="text" class="input-field" placeholder="Ask MyCOO to run a sprint..." aria-label="Director input" />
+                    <div class="input-actions">
+                        <span class="action-icon">+</span>
+                        <span class="action-icon">MIC</span>
+                    </div>
+                </div>
+            </div>
+        `;
+  },
+
+  runLayerDemo: (layer) => {
+    if (!layer || App.experienceState.isRunning) return;
+    App.experienceState.isRunning = true;
+    App.experienceState.activity = [];
+    App.renderActivityLog();
+
+    if (layer.coo && layer.coo.start) {
+      App.queueMessage(layer.coo.start, true);
+    }
+
+    const activity = layer.activity || [];
+    const duration = layer.duration || 3600;
+    const batchId = layer.id || "layer";
+
+    if (activity.length) {
+      App.appendActivity(activity, batchId);
+      App.runActivitySequence(activity, batchId, duration);
+    }
+
+    App.setExperienceTimer(() => {
+      App.experienceState.isRunning = false;
+      if (layer.coo && layer.coo.complete) {
+        App.queueMessage(layer.coo.complete, true);
+      }
+      App.queueNextLayerPrompt();
+    }, duration);
+  },
+
+  queueDecisionPrompt: (layer) => {
+    const subtitle = layer.subtitle ? `${layer.subtitle} ` : "";
+    const prompt = layer.prompt ? `${layer.prompt} ` : "";
+    const promptText = `${subtitle}${prompt}Which option should I run?`;
+    App.queueMessage(
+      {
+        text: promptText,
+        afterRender: (bubble, wrapper) => {
+          App.renderDecisionPrompt(wrapper, layer);
+        },
+      },
+      true
+    );
+  },
+
+  renderDecisionPrompt: (wrapper, layer) => {
+    const promptEl = document.createElement("div");
+    promptEl.className = "chat-decision";
+    const layerIndex = App.experienceState.currentLayerIndex;
+    const headerLabel = layer.dockTitle || "Decision Options";
+
+    promptEl.innerHTML = `
+            <div class="chat-decision-header">${headerLabel}</div>
+            <div class="chat-decision-options">
+                ${layer.decisions
+                  .map((decision) => {
+                    const badge = decision.badge
+                      ? `<span class="chat-decision-badge">${decision.badge}</span>`
+                      : "";
+                    const metrics =
+                      decision.metrics && decision.metrics.length
+                        ? `
+                        <div class="chat-decision-metrics">
+                            ${decision.metrics
+                              .map(
+                                (metric) => `
+                                <span class="chat-decision-metric metric-${metric.tone || "neutral"}">${metric.label}: ${metric.value}</span>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    `
+                        : "";
+                    return `
+                        <button class="chat-decision-option" data-layer="${layerIndex}" data-decision="${decision.id}">
+                            <div class="chat-decision-title-row">
+                                <div class="chat-decision-title">${decision.label}</div>
+                                ${badge}
+                            </div>
+                            <div class="chat-decision-desc">${decision.description}</div>
+                            ${metrics}
+                        </button>
+                    `;
+                  })
+                  .join("")}
+            </div>
+        `;
+
+    wrapper.appendChild(promptEl);
+    promptEl
+      .querySelectorAll(".chat-decision-option")
+      .forEach((button) =>
+        button.addEventListener("click", App.handleDecisionClick)
+      );
+  },
+
+  handleDecisionClick: (event) => {
+    const button = event.currentTarget;
+    const layerIndex = Number(button.dataset.layer);
+    const decisionId = button.dataset.decision;
+    App.runDecision(layerIndex, decisionId);
+  },
+
+  runDecision: (layerIndex, decisionId) => {
+    if (App.experienceState.isRunning) return;
+    const layer = EXPERIENCE.layers[layerIndex];
+    const decision = layer.decisions.find((item) => item.id === decisionId);
+    if (!decision) return;
+
+    App.experienceState.isRunning = true;
+    App.experienceState.activeDecisionId = decisionId;
+    App.experienceState.path.push(decision.pathLabel || decision.label);
+    App.renderExperiencePath();
+    App.setDecisionState(decisionId);
+    App.disableDecisionButtons();
+    App.addUserMessage(`Run: ${decision.label}`);
+
+    if (decision.coo && decision.coo.start) {
+      App.queueMessage(decision.coo.start, true);
+    }
+
+    const duration = decision.duration || 3200;
+    const deliverables = App.getDecisionDeliverables(decision);
+    const activity = App.getDecisionActivity(decision);
+
+    App.appendActivity(activity, decisionId);
+    App.runActivitySequence(activity, decisionId, duration);
+    App.spawnDeliverables(deliverables, duration);
+    App.runAgentSequence(decision);
+    App.animateCursors(deliverables, duration);
+
+    App.setExperienceTimer(() => {
+      App.experienceState.isRunning = false;
+      if (decision.coo && decision.coo.complete) {
+        App.queueMessage(decision.coo.complete, true);
+      }
+      App.queueNextLayerPrompt();
+    }, duration);
+  },
+
+  getDecisionDeliverables: (decision) => {
+    if (decision.deliverables && decision.deliverables.length) {
+      return decision.deliverables;
+    }
+    if (typeof EXPERIENCE_DELIVERABLES !== "undefined") {
+      return EXPERIENCE_DELIVERABLES[decision.id] || [];
+    }
+    return [];
+  },
+
+  getDecisionActivity: (decision) => {
+    if (decision.activity && decision.activity.length) {
+      return decision.activity;
+    }
+    if (typeof EXPERIENCE_ACTIVITY !== "undefined") {
+      return EXPERIENCE_ACTIVITY[decision.id] || EXPERIENCE_DEFAULT_ACTIVITY;
+    }
+    return EXPERIENCE_DEFAULT_ACTIVITY;
+  },
+
+  getCanvasLayout: (count) => {
+    const canvas = document.getElementById("experience-canvas");
+    const width = canvas ? canvas.clientWidth : 0;
+    const safeWidth = width > 0 ? width : 960;
+    const columns =
+      safeWidth >= CANVAS_TWO_COLUMN_MIN_WIDTH ? 2 : 1;
+    const usableWidth = safeWidth - CANVAS_PADDING * 2;
+    const columnWidth = Math.max(
+      CANVAS_MIN_COLUMN_WIDTH,
+      Math.floor(
+        (usableWidth - CANVAS_GAP * (columns - 1)) / columns
+      )
+    );
+    const totalColumnsWidth =
+      columnWidth * columns + CANVAS_GAP * (columns - 1);
+    const offsetX =
+      CANVAS_PADDING +
+      Math.max(0, Math.floor((usableWidth - totalColumnsWidth) / 2));
+    const rowHeight = CANVAS_ROW_HEIGHT;
+    const positions = Array.from({ length: count }, (_, index) => ({
+      x: offsetX + (index % columns) * (columnWidth + CANVAS_GAP),
+      y:
+        CANVAS_PADDING +
+        Math.floor(index / columns) * (rowHeight + CANVAS_GAP),
+    }));
+    const rows = Math.max(1, Math.ceil(count / columns));
+    const minHeight =
+      CANVAS_PADDING * 2 + rows * rowHeight + (rows - 1) * CANVAS_GAP;
+    const dockSpace = CANVAS_DOCK_HEIGHT + CANVAS_DOCK_OFFSET;
+
+    return { positions, columnWidth, rowHeight, minHeight: minHeight + dockSpace };
+  },
+
+  fitWindowSize: (size, layout) => {
+    return {
+      width: layout.columnWidth,
+      height: layout.rowHeight,
+    };
+  },
+
+  spawnDeliverables: (deliverables, duration) => {
+    if (!deliverables.length) return;
+    const newWindows = [];
+    const layout = App.getCanvasLayout(deliverables.length);
+
+    deliverables.forEach((deliverable, index) => {
+      const existing = App.experienceState.windows.find(
+        (window) => window.id === deliverable.id
+      );
+      if (existing) {
+        existing.zIndex = ++App.experienceState.zIndexCounter;
+        return;
+      }
+
+      const baseSize = deliverable.size || DEFAULT_WINDOW_SIZE;
+      const size = App.fitWindowSize(baseSize, layout);
+      const position = layout.positions[index] || {
+        x: CANVAS_PADDING,
+        y: CANVAS_PADDING,
+      };
+      const windowObj = {
+        ...deliverable,
+        status: "generating",
+        baseSize,
+        position,
+        size,
+        revealDelay: deliverable.revealDelay,
+        zIndex: ++App.experienceState.zIndexCounter,
+        gridIndex: App.experienceState.gridIndexCounter++,
+      };
+      newWindows.push(windowObj);
+    });
+
+    if (newWindows.length) {
+      App.experienceState.windows = [
+        ...App.experienceState.windows,
+        ...newWindows,
+      ];
+      App.focusWindow(newWindows[0].id);
+      App.renderCanvasWindows();
+    }
+
+    newWindows.forEach((windowObj, index) => {
+      const baseDelay = Math.min(duration * 0.8, 900 + index * 600);
+      const revealDelay =
+        typeof windowObj.revealDelay === "number"
+          ? windowObj.revealDelay
+          : baseDelay;
+      App.setExperienceTimer(() => {
+        windowObj.status = "ready";
+        App.renderCanvasWindows();
+      }, revealDelay);
+    });
+  },
+
+  renderCanvasWindows: () => {
+    const canvas = document.getElementById("canvas-content");
+    const canvasFrame = document.getElementById("experience-canvas");
+    if (!canvas || !canvasFrame) return;
+
+    const windows = App.experienceState.windows;
+    canvasFrame.classList.remove("full-canvas");
+
+    const fullCanvasWindow = windows.find(
+      (windowObj) => windowObj.fullCanvas && windowObj.status === "ready"
+    );
+    if (fullCanvasWindow) {
+      canvasFrame.classList.add("full-canvas");
+      canvasFrame.style.minHeight = "640px";
+      const previewMarkup =
+        fullCanvasWindow.status === "ready"
+          ? `<iframe src="${fullCanvasWindow.url}" title="${fullCanvasWindow.title}" class="full-canvas-frame"></iframe>`
+          : `
+                <div class="full-canvas-loading">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line wide"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+            `;
+      canvas.innerHTML = `
+            <div class="full-canvas-panel">
+                ${previewMarkup}
+            </div>
+        `;
+      return;
+    }
+
+    const visibleWindows = windows.filter((windowObj) => !windowObj.fullCanvas);
+    if (!visibleWindows.length) {
+      canvasFrame.style.minHeight = `${CANVAS_DOCK_HEIGHT + 520}px`;
+      canvas.innerHTML = `
+                <div class="canvas-placeholder">
+                    <div class="artifact-card canvas-placeholder-main">
+                        <div class="artifact-header">
+                            <div class="artifact-title-group">
+                                <span class="artifact-title">HSEP Live Briefing</span>
+                                <span class="artifact-badge">LIVE</span>
+                            </div>
+                        </div>
+                        <div class="artifact-body">
+                            <div class="artifact-section-title">Key Signals</div>
+                            <ul class="artifact-list">
+                                <li><span class="artifact-bullet"></span>ARR floor: $100K minimum</li>
+                                <li><span class="artifact-bullet"></span>Portfolio archetype: ChargerHelp!</li>
+                                <li><span class="artifact-bullet"></span>Service-heavy ops coverage</li>
+                                <li><span class="artifact-bullet"></span>Equity gap reporting for LPs</li>
+                            </ul>
+                            <div class="artifact-section-title">Priority Focus</div>
+                            <ul class="artifact-list">
+                                <li><span class="artifact-bullet"></span>Readiness scorecard</li>
+                                <li><span class="artifact-bullet"></span>30/60/90 sprint plan</li>
+                                <li><span class="artifact-bullet"></span>Impact dashboard + Ostia panel</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="artifact-card canvas-placeholder-side">
+                        <div class="artifact-header">
+                            <div class="artifact-title-group">
+                                <span class="artifact-title">Signal Feed</span>
+                                <span class="artifact-badge">LIVE</span>
+                            </div>
+                        </div>
+                        <div class="artifact-body">
+                            <div class="signal-list">
+                                <div class="signal-pill">Readiness scorecard queued</div>
+                                <div class="signal-pill">30/60/90 sprint plan ready</div>
+                                <div class="signal-pill">Impact dashboard pending</div>
+                                <div class="signal-pill">Ostia transparency panel staged</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      return;
+    }
+
+    const orderedWindows = [...visibleWindows].sort((a, b) => {
+      const aIndex = Number.isFinite(a.gridIndex) ? a.gridIndex : 0;
+      const bIndex = Number.isFinite(b.gridIndex) ? b.gridIndex : 0;
+      return aIndex - bIndex;
+    });
+    const layout = App.getCanvasLayout(orderedWindows.length);
+    canvasFrame.style.minHeight = `${layout.minHeight}px`;
+    orderedWindows.forEach((windowObj, index) => {
+      const baseSize =
+        windowObj.baseSize || windowObj.size || DEFAULT_WINDOW_SIZE;
+      windowObj.size = App.fitWindowSize(baseSize, layout);
+      const basePosition = layout.positions[index] || windowObj.position || {
+        x: CANVAS_PADDING,
+        y: CANVAS_PADDING,
+      };
+      const xOffset = Math.max(
+        0,
+        Math.floor((layout.columnWidth - windowObj.size.width) / 2)
+      );
+      windowObj.position = {
+        x: basePosition.x + xOffset,
+        y: basePosition.y,
+      };
+    });
+
+    const windowsMarkup = orderedWindows
+      .map((windowObj) => {
+        const isFocused = windowObj.id === App.experienceState.focusedWindowId;
+        const badgeText =
+          windowObj.status === "ready" ? windowObj.badge : "GENERATING";
+        const previewHtml = App.renderWindowPreview(windowObj);
+        return `
+                <div class="canvas-window ${isFocused ? "focused" : ""} ${windowObj.status}" data-window-id="${windowObj.id}" data-window-status="${windowObj.status}"
+                    style="left:${windowObj.position.x}px; top:${windowObj.position.y}px; width:${windowObj.size.width}px; height:${windowObj.size.height}px; z-index:${windowObj.zIndex};">
+                    <div class="window-header">
+                        <div class="window-title">
+                            <span>${windowObj.title}</span>
+                        </div>
+                        <span class="window-badge">${badgeText}</span>
+                    </div>
+                    <div class="window-body">
+                        ${previewHtml}
+                        <div class="window-description">${windowObj.description}</div>
+                        <button class="window-open" data-open-url="${windowObj.url}" data-open-title="${windowObj.title}" data-open-mode="${windowObj.mode}">
+                            Open Deliverable
+                        </button>
+                    </div>
+                </div>
+            `;
+      })
+      .join("");
+
+    const cursorMarkup = App.renderCursorMarkup();
+    canvas.innerHTML = `
+            ${windowsMarkup}
+            ${cursorMarkup}
+        `;
+
+    canvas.querySelectorAll(".canvas-window").forEach((windowEl) => {
+      windowEl.addEventListener("click", () =>
+        App.focusWindow(windowEl.dataset.windowId)
+      );
+    });
+
+    canvas.querySelectorAll(".window-open").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const url = button.dataset.openUrl;
+        const title = button.dataset.openTitle;
+        const mode = button.dataset.openMode || "doc";
+        App.openViewer(url, title, mode);
+      });
+    });
+  },
+
+  renderWindowPreview: (windowObj) => {
+    if (windowObj.status !== "ready") {
+      return `
+                <div class="window-preview loading">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line wide"></div>
+                    <div class="skeleton-line short"></div>
+                </div>
+            `;
+    }
+
+    if (windowObj.previewType === "iframe") {
+      return `
+                <div class="window-preview">
+                    <iframe src="${windowObj.url}" title="${windowObj.title}" class="window-frame"></iframe>
+                </div>
+            `;
+    }
+
+    return `
+            <div class="window-preview placeholder">
+                Preview available on open.
+            </div>
+        `;
+  },
+
+  renderCursorMarkup: () => {
+    if (!App.experienceState.cursors) return "";
+    return App.experienceState.cursors
+      .map((cursor) => {
+        const position =
+          App.experienceState.cursorPositions[cursor.id] || { x: 24, y: 24 };
+        return `
+                <div class="agent-cursor" style="left:${position.x}px; top:${position.y}px; color:${cursor.color};">
+                    <div class="cursor-arrow"></div>
+                    <div class="cursor-label">${cursor.label}</div>
+                </div>
+            `;
+      })
+      .join("");
+  },
+
+  focusWindow: (windowId) => {
+    const target = App.experienceState.windows.find(
+      (windowObj) => windowObj.id === windowId
+    );
+    if (!target) return;
+    target.zIndex = ++App.experienceState.zIndexCounter;
+    App.experienceState.focusedWindowId = windowId;
+    App.renderCanvasWindows();
+  },
+
+  renderWindowsRail: () => {
+    const rail = document.getElementById("experience-windows");
+    if (!rail) return;
+    const windows = App.experienceState.windows;
+
+    rail.innerHTML = `
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Open Windows</span>
+                    <span class="artifact-badge">${windows.length}</span>
+                </div>
+            </div>
+            <div class="artifact-body">
+                ${
+                  windows.length
+                    ? windows
+                        .map(
+                          (windowObj) => `
+                        <div class="window-rail-item ${windowObj.id === App.experienceState.focusedWindowId ? "focused" : ""}" data-window-id="${windowObj.id}">
+                            <span class="rail-status ${windowObj.status}"></span>
+                            <div>
+                                <div class="rail-title">${windowObj.title}</div>
+                                <div class="rail-subtitle">${windowObj.status === "ready" ? "Ready" : "Generating"}</div>
+                            </div>
+                        </div>
+                    `
+                        )
+                        .join("")
+                    : `<div class="artifact-placeholder-text">No windows yet.</div>`
+                }
+            </div>
+        `;
+
+    rail.querySelectorAll(".window-rail-item").forEach((item) => {
+      item.addEventListener("click", () =>
+        App.focusWindow(item.dataset.windowId)
+      );
+    });
+  },
+
+  appendActivity: (activity, decisionId) => {
+    const timestamp = Date.now();
+    const items = activity.map((task, index) => ({
+      id: `${decisionId}-${timestamp}-${index}`,
+      ...task,
+      status: "queued",
+    }));
+
+    App.experienceState.activity = [
+      ...App.experienceState.activity,
+      ...items,
+    ].slice(-8);
+    App.renderActivityLog();
+  },
+
+  updateActivityStatus: (activityId, status) => {
+    const item = App.experienceState.activity.find(
+      (entry) => entry.id === activityId
+    );
+    if (item) {
+      item.status = status;
+      App.renderActivityLog();
+    }
+  },
+
+  renderActivityLog: () => {
+    const activityEl = document.getElementById("rail-activity");
+    if (!activityEl) return;
+    const entries = App.experienceState.activity;
+    const count = document.getElementById("agent-count");
+
+    if (count && count.dataset.mode === "activity") {
+      count.textContent = entries.length ? `(${entries.length} events)` : "(Idle)";
+    }
+
+    activityEl.innerHTML = `
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Agent Activity</span>
+                    <span class="artifact-badge">${entries.length ? "LIVE" : "IDLE"}</span>
+                </div>
+            </div>
+            <div class="artifact-body">
+                ${
+                  entries.length
+                    ? entries
+                        .map(
+                          (entry) => `
+                        <div class="activity-item ${entry.status}">
+                            <span class="activity-dot"></span>
+                            <div>
+                                <div class="activity-title">${entry.agent}</div>
+                                <div class="activity-text">${entry.text}</div>
+                            </div>
+                        </div>
+                    `
+                        )
+                        .join("")
+                    : `<div class="artifact-placeholder-text">Awaiting demo input.</div>`
+                }
+            </div>
+        `;
+  },
+
+  runActivitySequence: (activity, decisionId, duration) => {
+    const timestamp = App.experienceState.activity
+      .filter((entry) => entry.id.startsWith(decisionId))
+      .map((entry) => entry.id);
+    if (!timestamp.length) return;
+
+    const stepDelay = Math.max(500, Math.floor(duration / timestamp.length));
+    timestamp.forEach((entryId, index) => {
+      App.setExperienceTimer(() => {
+        App.updateActivityStatus(entryId, "working");
+      }, index * stepDelay);
+      App.setExperienceTimer(() => {
+        App.updateActivityStatus(entryId, "done");
+      }, index * stepDelay + stepDelay * 0.8);
+    });
+  },
+
+  animateCursors: (deliverables, duration) => {
+    if (!deliverables.length) return;
+    const cursorIds = App.experienceState.cursors.map((cursor) => cursor.id);
+    const stepDelay = Math.max(500, Math.floor(duration / deliverables.length));
+    const layout = App.getCanvasLayout(deliverables.length);
+
+    deliverables.forEach((deliverable, index) => {
+      const base = layout.positions[index] || {
+        x: CANVAS_PADDING,
+        y: CANVAS_PADDING,
+      };
+      const baseSize = deliverable.size || DEFAULT_WINDOW_SIZE;
+      const size = App.fitWindowSize(baseSize, layout);
+      const xOffset = Math.max(
+        0,
+        Math.floor((layout.columnWidth - size.width) / 2)
+      );
+      const pos = { x: base.x + xOffset + 30, y: base.y + 40 };
+      const cursorId = cursorIds[index % cursorIds.length];
+      App.setExperienceTimer(() => {
+        App.experienceState.cursorPositions[cursorId] = pos;
+        App.renderCanvasWindows();
+      }, index * stepDelay);
+    });
+  },
+
+  setDecisionState: (decisionId) => {
+    const buttons = document.querySelectorAll(".chat-decision-option");
+    buttons.forEach((button) => {
+      const isSelected = button.dataset.decision === decisionId;
+      button.classList.toggle("selected", isSelected);
+    });
+  },
+
+  disableDecisionButtons: () => {
+    document.querySelectorAll(".chat-decision-option").forEach((button) => {
+      button.disabled = true;
+      button.classList.add("disabled");
+    });
+  },
+
+  runAgentSequence: (decision) => {
+    const agents = decision.agents || [];
+    const duration = decision.duration || 3200;
+    const phases = [
+      { delay: 0, progress: 20, status: "working", key: "working" },
+      { delay: Math.floor(duration * 0.45), progress: 60, status: "working", key: "working" },
+      { delay: Math.floor(duration * 0.9), progress: 100, status: "done", key: "done" },
+    ];
+
+    phases.forEach((phase) => {
+      App.setExperienceTimer(() => {
+        App.updateAgents(
+          agents.map((agent) => ({
+            name: agent.name,
+            status: phase.status,
+            statusText: agent[phase.key],
+            model: agent.model,
+            progress: phase.progress,
+          }))
+        );
+      }, phase.delay);
+    });
+  },
+
+  queueNextLayerPrompt: () => {
+    const nextIndex = App.experienceState.currentLayerIndex + 1;
+    const isLast = nextIndex >= EXPERIENCE.layers.length;
+    const nextLayer = EXPERIENCE.layers[nextIndex];
+    const message = isLast
+      ? "That completes the demos. Want me to restart the sequence?"
+      : `Ready for Demo ${nextIndex + 1}: ${nextLayer.title}? I can take you there when you're ready.`;
+
+    App.queueMessage(
+      {
+        text: message,
+        afterRender: (bubble, wrapper) => {
+          App.renderNextLayerActions(wrapper, nextIndex, isLast);
+        },
+      },
+      true
+    );
+  },
+
+  renderNextLayerActions: (wrapper, nextIndex, isLast) => {
+    const actionsEl = document.createElement("div");
+    actionsEl.className = "chat-action-buttons";
+    actionsEl.innerHTML = isLast
+      ? `<button class="chat-action-button" data-action="restart">Restart demos</button>`
+      : `<button class="chat-action-button" data-action="next">Show Demo ${nextIndex + 1}: ${EXPERIENCE.layers[nextIndex].title}</button>`;
+
+    wrapper.appendChild(actionsEl);
+    actionsEl
+      .querySelectorAll("button")
+      .forEach((button) =>
+        button.addEventListener("click", App.handleDecisionAction)
+      );
+  },
+
+  handleDecisionAction: (event) => {
+    const action = event.currentTarget.dataset.action;
+    if (action === "next") {
+      App.advanceLayer();
+    } else if (action === "restart") {
+      App.restartExperience();
+    }
+  },
+
+  advanceLayer: () => {
+    const nextIndex = App.experienceState.currentLayerIndex + 1;
+    if (nextIndex < EXPERIENCE.layers.length) {
+      App.renderExperienceLayer(nextIndex);
+    } else {
+      App.restartExperience();
+    }
+  },
+
+  restartExperience: () => {
+    App.experienceState.path = [];
+    App.experienceState.activity = [];
+    App.renderExperienceLayer(0);
+  },
+
+  /* --- Viewer Overlay Logic --- */
+  openViewer: (url, title, mode = "web") => {
+    const overlay = document.getElementById("viewer-overlay");
+    const windowEl = overlay.querySelector(".viewer-window");
+    const frame = document.getElementById("viewer-frame");
+    const titleEl = document.getElementById("viewer-title");
+    const linkEl = document.getElementById("viewer-link");
+
+    // Reset modes
+    windowEl.classList.remove("mode-web", "mode-doc", "mode-deck", "mode-full");
+    
+    // Apply mode
+    const normalizedMode = mode.startsWith("mode-") ? mode.replace("mode-", "") : mode;
+    windowEl.classList.add(`mode-${normalizedMode}`);
+
+    frame.src = url;
+    titleEl.textContent = title;
+    const isCalendly = url.includes("calendly.com/mauricio-ostia/30min");
+    linkEl.href = isCalendly ? "#" : url;
+    linkEl.style.display = isCalendly ? "none" : "inline-flex";
+
+    overlay.classList.add("active");
+  },
+
+  closeViewer: () => {
+    const overlay = document.getElementById("viewer-overlay");
+    const frame = document.getElementById("viewer-frame");
+
+    overlay.classList.remove("active");
+    setTimeout(() => {
+      frame.src = ""; // Clear source to stop media
+    }, 300);
+  },
+};
+
+// Start
+document.addEventListener("DOMContentLoaded", App.init);

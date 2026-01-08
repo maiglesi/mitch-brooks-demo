@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitch Brooks - Equity Gap Reporting Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Artifact Card Structure -->
+      <div 
+        class="w-[900px] bg-white rounded-md flex flex-col overflow-hidden relative"
+        style="box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12); border: 1px solid var(--border); height: 700px;"
+      >
+        <!-- Artifact Header -->
+        <div class="h-12 bg-[#FAFAFA] border-b border-[#EAEAEA] px-5 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📈</span>
+            <span class="font-semibold text-sm text-[#1C1B1A]">Equity Gap Reporting Hub</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#E0E7FF] text-[#3730A3] uppercase tracking-wider">
+              Live
+            </span>
+          </div>
+          <div class="flex gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 flex flex-col min-h-0 bg-stone-50 relative">
+          
+          <!-- Toolbar -->
+          <div class="p-6 pb-2">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h1 class="text-2xl font-semibold mb-1">Metrics Library</h1>
+                <p class="text-sm text-[#5C5A56]">Manage automated distribution and Series A readiness dashboards.</p>
+              </div>
+              <button class="flex items-center gap-2 bg-[#1C1B1A] text-white px-4 py-2 rounded shadow-sm hover:bg-[#333] transition-colors text-sm font-medium">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>New Report</span>
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+              <div class="flex items-center gap-1 bg-white border border-[#EAEAEA] rounded p-1 shadow-sm">
+                  <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors bg-[#1C1B1A] text-white">All</button>
+                  <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Growth</button>
+                  <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Impact</button>
+                  <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Ops</button>
+              </div>
+
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-[#767370]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search reports..." 
+                  class="pl-9 pr-4 py-1.5 text-sm border border-[#EAEAEA] rounded bg-white focus:outline-none focus:border-[#1C1B1A] w-64 transition-colors placeholder-[#767370]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Grid -->
+          <div class="flex-1 overflow-y-auto p-6 pt-2 grid grid-cols-1 gap-4">
+            
+            <!-- Report 1 -->
+            <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+                <div class="absolute top-4 right-4 flex items-center gap-2">
+                   <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+                </div>
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline gap-2 mb-1">
+                      <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Series A Readiness Pack</h3>
+                      <span class="text-xs text-[#767370] font-mono">#R-101</span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                      <div class="flex items-start gap-1.5">
+                        <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                        <div>
+                          <span class="font-medium text-[#1C1B1A]">Monthly</span>
+                          <span class="text-xs block text-[#767370]">1st of month • Last: 2 days ago</span>
+                        </div>
+                      </div>
+                      <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                        <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">ARR Growth</span>
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Burn Multiple</span>
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">CAC Payback</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Report 2 -->
+            <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+                <div class="absolute top-4 right-4 flex items-center gap-2">
+                   <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#F1F3F5] text-[#495057]">Draft</span>
+                </div>
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline gap-2 mb-1">
+                      <h3 class="text-base font-semibold text-[#1C1B1A] truncate">DE&I Impact Report</h3>
+                      <span class="text-xs text-[#767370] font-mono">#R-105</span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                      <div class="flex items-start gap-1.5">
+                        <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                        <div>
+                          <span class="font-medium text-[#1C1B1A]">Quarterly</span>
+                          <span class="text-xs block text-[#767370]">End of QTR • Last: 2 mo ago</span>
+                        </div>
+                      </div>
+                      <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                        <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Hiring Diversity</span>
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Retention by Group</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Report 3 -->
+            <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+                <div class="absolute top-4 right-4 flex items-center gap-2">
+                   <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+                </div>
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline gap-2 mb-1">
+                      <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Runway & Cash Flow Analysis</h3>
+                      <span class="text-xs text-[#767370] font-mono">#R-102</span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                      <div class="flex items-start gap-1.5">
+                        <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                        <div>
+                          <span class="font-medium text-[#1C1B1A]">Weekly</span>
+                          <span class="text-xs block text-[#767370]">Monday • Last: Yesterday</span>
+                        </div>
+                      </div>
+                      <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                        <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Cash Position</span>
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">OpEx Trend</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Report 4 -->
+            <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+                <div class="absolute top-4 right-4 flex items-center gap-2">
+                   <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+                </div>
+                <div class="flex gap-4">
+                  <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline gap-2 mb-1">
+                      <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Product Usage & Retention</h3>
+                      <span class="text-xs text-[#767370] font-mono">#R-106</span>
+                    </div>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                      <div class="flex items-start gap-1.5">
+                        <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                        <div>
+                          <span class="font-medium text-[#1C1B1A]">Weekly</span>
+                          <span class="text-xs block text-[#767370]">Monday • Last: Yesterday</span>
+                        </div>
+                      </div>
+                      <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                        <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                        <div class="flex flex-wrap gap-1">
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">DAU/MAU</span>
+                            <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Churn Risk</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+          </div>
+
+          <!-- Footer / Context Info -->
+          <div class="p-3 border-t border-[#EAEAEA] bg-[#FAFAFA] text-xs text-[#767370] flex justify-between font-mono">
+            <span>Synced with Salesforce & NetSuite</span>
+            <span>Last Sync: 10 mins ago</span>
+          </div>
+
+        </div>
+      </div>
+  </div>
+</body>
+</html>

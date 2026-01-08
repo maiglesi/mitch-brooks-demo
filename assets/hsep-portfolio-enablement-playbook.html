@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSEP Portfolio Enablement Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="flex flex-col bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] overflow-hidden" style="box-shadow: var(--shadow-float);">
+      <div class="h-12 border-b border-[var(--border)] px-5 flex items-center justify-between bg-[#FAFAFA]">
+        <div class="flex items-center gap-3">
+          <div class="w-6 h-6 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs">NAV</div>
+          <span class="text-[13px] font-semibold">Portfolio Enablement Playbook</span>
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono uppercase bg-gray-100 text-gray-600 border border-[var(--border)]">LIVE</span>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+        </div>
+      </div>
+
+      <div class="flex-1 p-8 bg-[var(--bg-page)]">
+        <div class="flex items-end justify-between mb-6">
+          <div>
+            <h1 class="text-xl font-semibold">HSEP Operating Sprints</h1>
+            <p class="text-sm text-[var(--text-secondary)]">Service-heavy enablement across underrepresented founders.</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="px-3 py-1.5 text-xs font-medium bg-white border border-[var(--border)] rounded shadow-sm text-[var(--text-secondary)]">Timeline View</button>
+            <button class="px-3 py-1.5 text-xs font-medium bg-[#1C1B1A] text-white rounded shadow-sm">Board View</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-white border border-[var(--border)] rounded-[4px] p-5 shadow-sm relative">
+            <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+            <div class="flex justify-between items-start mb-3 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-emerald-50 text-emerald-700 border border-emerald-100">On Track</span>
+              <span class="text-xs text-[var(--text-secondary)]">Due: Feb 12</span>
+            </div>
+            <h3 class="text-base font-semibold pl-2">Founder Onboarding Sprint</h3>
+            <p class="text-sm text-[var(--text-secondary)] pl-2">First 14-day operating sprint for seed-stage teams.</p>
+            <div class="mt-4 pl-2">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="text-[var(--text-secondary)]">Progress</span>
+                <span class="font-mono text-[var(--text-primary)]">72%</span>
+              </div>
+              <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500" style="width: 72%"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-50 text-blue-700 border border-blue-100">Ops</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-teal-50 text-teal-700 border border-teal-100">GTM</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-50 text-amber-700 border border-amber-100">Hiring</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[var(--border)] rounded-[4px] p-5 shadow-sm relative">
+            <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+            <div class="flex justify-between items-start mb-3 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-amber-50 text-amber-700 border border-amber-100">At Risk</span>
+              <span class="text-xs text-[var(--text-secondary)]">Due: Feb 20</span>
+            </div>
+            <h3 class="text-base font-semibold pl-2">Impact Metrics Cadence</h3>
+            <p class="text-sm text-[var(--text-secondary)] pl-2">Equity gap reporting pack for LP updates.</p>
+            <div class="mt-4 pl-2">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="text-[var(--text-secondary)]">Progress</span>
+                <span class="font-mono text-[var(--text-primary)]">46%</span>
+              </div>
+              <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-500" style="width: 46%"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-100">Impact</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-50 text-slate-700 border border-slate-100">Reporting</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[var(--border)] rounded-[4px] p-5 shadow-sm relative">
+            <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+            <div class="flex justify-between items-start mb-3 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-blue-50 text-blue-700 border border-blue-100">Planning</span>
+              <span class="text-xs text-[var(--text-secondary)]">Due: Mar 01</span>
+            </div>
+            <h3 class="text-base font-semibold pl-2">Portfolio Enablement Playbook</h3>
+            <p class="text-sm text-[var(--text-secondary)] pl-2">Repeatable operator playbooks across sectors.</p>
+            <div class="mt-4 pl-2">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="text-[var(--text-secondary)]">Progress</span>
+                <span class="font-mono text-[var(--text-primary)]">22%</span>
+              </div>
+              <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-blue-500" style="width: 22%"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-50 text-blue-700 border border-blue-100">Ops</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-50 text-purple-700 border border-purple-100">Enablement</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[var(--border)] rounded-[4px] p-5 shadow-sm relative">
+            <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+            <div class="flex justify-between items-start mb-3 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-emerald-50 text-emerald-700 border border-emerald-100">On Track</span>
+              <span class="text-xs text-[var(--text-secondary)]">Due: Mar 10</span>
+            </div>
+            <h3 class="text-base font-semibold pl-2">Community Pipeline Build</h3>
+            <p class="text-sm text-[var(--text-secondary)] pl-2">Strategic partner and co-investor pipeline.</p>
+            <div class="mt-4 pl-2">
+              <div class="flex justify-between text-xs mb-1.5">
+                <span class="text-[var(--text-secondary)]">Progress</span>
+                <span class="font-mono text-[var(--text-primary)]">61%</span>
+              </div>
+              <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500" style="width: 61%"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2 pl-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-100">Network</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-50 text-orange-700 border border-orange-100">GTM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

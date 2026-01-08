@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equity Gap Reporting Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: "Inter", sans-serif;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #D1D5DB;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="w-full h-full flex items-center justify-center p-8 font-sans text-[#1C1B1A]">
+    <div 
+      class="w-[900px] bg-white rounded-md flex flex-col overflow-hidden relative"
+      style="box-shadow: var(--shadow-float); border: 1px solid var(--border); height: 700px;"
+    >
+      <div class="h-12 bg-[#FAFAFA] border-b border-[#EAEAEA] px-5 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">📈</span>
+          <span class="font-semibold text-sm text-[#1C1B1A]">Equity Gap Reporting Hub</span>
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#E0E7FF] text-[#3730A3] uppercase tracking-wider">
+            Live
+          </span>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col min-h-0 bg-stone-50 relative">
+        <div class="p-6 pb-2">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h1 class="text-2xl font-semibold mb-1">Impact Reporting Library</h1>
+              <p class="text-sm text-[#5C5A56]">LP-ready equity gap and readiness reporting templates.</p>
+            </div>
+            <button class="flex items-center gap-2 bg-[#1C1B1A] text-white px-4 py-2 rounded shadow-sm hover:bg-[#333] transition-colors text-sm font-medium">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>New Report</span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-1 bg-white border border-[#EAEAEA] rounded p-1 shadow-sm">
+              <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors bg-[#1C1B1A] text-white">All</button>
+              <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Executive</button>
+              <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Pipeline</button>
+              <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Forecast</button>
+              <button class="px-3 py-1.5 text-xs font-medium rounded transition-colors text-[#5C5A56] hover:bg-[#F3F4F6]">Activity</button>
+            </div>
+
+            <div class="relative">
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-[#767370]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              <input
+                type="text"
+                placeholder="Search reports..."
+                class="pl-9 pr-4 py-1.5 text-sm border border-[#EAEAEA] rounded bg-white focus:outline-none focus:border-[#1C1B1A] w-64 transition-colors placeholder-[#767370]"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 pt-2 grid grid-cols-1 gap-4 custom-scrollbar">
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Equity Gap Coverage Snapshot</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-201</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Quarterly</span>
+                      <span class="text-xs block text-[#767370]">Day 3 • Last: 2 weeks ago</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">HSEP Partners, LPs</span>
+                      <span class="text-xs text-[#767370]">2 recipients</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Founder demographics</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Geo diversity</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">ARR floor coverage</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">ARR Readiness Tracker</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-202</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Weekly</span>
+                      <span class="text-xs block text-[#767370]">Monday • Last: 3 days ago</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">Investment Committee</span>
+                      <span class="text-xs text-[#767370]">1 recipient</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">ARR floor met</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Gross margin</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Burn multiple</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Field Ops Reliability Pulse</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-203</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Weekly</span>
+                      <span class="text-xs block text-[#767370]">Friday • Last: 1 week ago</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">Ops Lead, Support</span>
+                      <span class="text-xs text-[#767370]">2 recipients</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">SLA compliance</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Ticket aging</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Coverage gaps</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#DCFCE7] text-[#166534]">Active</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Community Outreach Pipeline</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-204</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Weekly</span>
+                      <span class="text-xs block text-[#767370]">Wednesday • Last: Yesterday</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">Platform Ops</span>
+                      <span class="text-xs text-[#767370]">1 recipient</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">VC Include referrals</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">LinkedIn inbound</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Heartland Challenge</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#F1F3F5] text-[#495057]">Draft</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">LP Impact Update (Quarterly)</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-205</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Quarterly</span>
+                      <span class="text-xs block text-[#767370]">Day 7 • Last: 1 month ago</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">LPs, Advisors</span>
+                      <span class="text-xs text-[#767370]">2 recipients</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Underrepresented founder count</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Job creation</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Follow-on readiness</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-[#EAEAEA] rounded p-4 hover:shadow-md transition-shadow group relative">
+            <div class="absolute top-4 right-4 flex items-center gap-2">
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded tracking-wide bg-[#FEF3C7] text-[#854D0E]">Paused</span>
+              <button class="text-[#767370] opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#1C1B1A]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+              </button>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="w-12 h-12 rounded bg-[#F3F4F6] flex items-center justify-center text-[#5C5A56] shrink-0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="text-base font-semibold text-[#1C1B1A] truncate">Capital Efficiency Dashboard</h3>
+                  <span class="text-xs text-[#767370] font-mono">#R-206</span>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[#5C5A56] mt-2">
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                    <div>
+                      <span class="font-medium text-[#1C1B1A]">Monthly</span>
+                      <span class="text-xs block text-[#767370]">Last Friday • Last: 3 weeks ago</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5">
+                    <span class="mt-0.5 text-[#767370]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                    <div class="max-w-[150px] truncate">
+                      <span class="text-[#1C1B1A] block truncate">Ops + Finance</span>
+                      <span class="text-xs text-[#767370]">2 recipients</span>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-1.5 flex-1 min-w-[150px]">
+                    <span class="mt-0.5 text-[#767370]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg></span>
+                    <div class="flex flex-wrap gap-1">
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Burn multiple</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Runway vs ARR</span>
+                      <span class="inline-block px-1.5 py-0.5 bg-[#F3F4F6] rounded text-xs text-[#5C5A56] border border-[#E5E7EB]">Ops spend ratio</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 border-t border-[#EAEAEA] bg-[#FAFAFA] text-xs text-[#767370] flex justify-between font-mono">
+          <span>Library Version 2.4.0</span>
+          <span>Synced with Airtable + Notion</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

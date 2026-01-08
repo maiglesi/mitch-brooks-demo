@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitch Brooks - Ostia Strategic Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --text-muted: #767370;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="flex items-center justify-center w-full h-full p-8 bg-transparent">
+      <!-- Artifact Container -->
+      <div 
+        class="w-[850px] bg-white border border-[#EAEAEA] rounded shadow-[0_20px_40px_-10px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500"
+        style="box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12); height: 700px;"
+      >
+        <!-- Artifact Header -->
+        <div class="h-12 border-b border-[#EAEAEA] bg-[#FAFAFA] px-5 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-3">
+            <div class="p-1.5 bg-blue-50 rounded text-blue-600">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <span class="text-sm font-semibold text-[#1C1B1A] font-sans">Ostia Strategic Monitor</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">
+              CONFIDENTIAL
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-yellow-400 transition-colors" aria-label="Minimize"></button>
+            <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-green-400 transition-colors" aria-label="Maximize"></button>
+            <button class="w-2.5 h-2.5 rounded-full bg-gray-200 hover:bg-red-400 transition-colors" aria-label="Close"></button>
+          </div>
+        </div>
+
+        <!-- Artifact Body -->
+        <div class="flex-1 overflow-y-auto p-8 font-sans">
+          
+          <!-- Report Meta Header -->
+          <div class="flex justify-between items-start mb-8 pb-6 border-b border-[#EAEAEA]">
+            <div>
+              <h1 class="text-2xl font-semibold text-[#1C1B1A] mb-1">High Street Portfolio Review</h1>
+              <div class="flex items-center gap-2 text-gray-500 text-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>January 2026 • Fund I</span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="text-xs font-mono text-gray-400 uppercase tracking-widest mb-1">Fund Health</span>
+              <div class="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-green-50 text-green-700 border border-green-100">
+                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                On Track
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Accomplishments -->
+          <section class="mb-8">
+            <h3 class="text-sm font-semibold text-[#1C1B1A] uppercase tracking-wide mb-4 flex items-center gap-2">
+              <span class="w-1 h-4 bg-green-500 rounded-full"></span>
+              Portfolio Highlights
+            </h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3 group">
+                  <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity text-green-600">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                  </div>
+                  <span class="text-gray-700 text-sm leading-relaxed"><strong>ChargerHelp!</strong> surpassed 1,500 trained technicians milestone; expanded EV infrastructure ops to 3 new states.</span>
+              </li>
+              <li class="flex items-start gap-3 group">
+                  <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity text-green-600">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                  </div>
+                  <span class="text-gray-700 text-sm leading-relaxed"><strong>Sober Sidekick</strong> secured major partnership with BCBS for recovery support pilot.</span>
+              </li>
+              <li class="flex items-start gap-3 group">
+                  <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity text-green-600">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                  </div>
+                  <span class="text-gray-700 text-sm leading-relaxed">Deployed MyCOO operational layer across 4 Seed-stage companies to automate Series A readiness.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section: Upcoming -->
+          <section class="mb-8">
+            <h3 class="text-sm font-semibold text-[#1C1B1A] uppercase tracking-wide mb-4 flex items-center gap-2">
+              <span class="w-1 h-4 bg-blue-500 rounded-full"></span>
+              Strategic Initiatives (Q1)
+            </h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3 group">
+                  <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity text-gray-400">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /></svg>
+                  </div>
+                  <span class="text-gray-700 text-sm leading-relaxed">Host "Future of Work" Investor Day in Little Rock for LP network.</span>
+              </li>
+              <li class="flex items-start gap-3 group">
+                  <div class="mt-0.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity text-gray-400">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /></svg>
+                  </div>
+                  <span class="text-gray-700 text-sm leading-relaxed">Finalize diligence on 2 new Health Tech prospects in Atlanta and DC.</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Grid for Risks & Asks -->
+          <div class="grid grid-cols-2 gap-8">
+            
+            <!-- Section: Risks -->
+            <section class="bg-amber-50/50 rounded-lg p-5 border border-amber-100/50">
+              <h3 class="text-sm font-semibold text-amber-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                Risks & Attention
+              </h3>
+              <ul class="space-y-4">
+                <li class="flex flex-col gap-1">
+                    <span class="text-gray-800 text-sm font-medium">Series A market tightening for consumer apps.</span>
+                    <span class="text-xs font-mono text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded w-fit">Impact: Medium</span>
+                </li>
+                 <li class="flex flex-col gap-1">
+                    <span class="text-gray-800 text-sm font-medium">Hiring delays for technical leads in Campus Ink.</span>
+                    <span class="text-xs font-mono text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded w-fit">Impact: Low</span>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Section: Asks -->
+            <section class="bg-blue-50/50 rounded-lg p-5 border border-blue-100/50">
+              <h3 class="text-sm font-semibold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-600"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                Strategic Asks
+              </h3>
+              <ul class="space-y-3">
+                <li class="flex items-start gap-2">
+                     <span class="text-blue-400 mt-1">•</span>
+                    <span class="text-gray-700 text-sm leading-relaxed">Introduction to growth-stage funds for Happied follow-on.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                     <span class="text-blue-400 mt-1">•</span>
+                    <span class="text-gray-700 text-sm leading-relaxed">Review updated DE&I impact metrics deck.</span>
+                </li>
+              </ul>
+            </section>
+
+          </div>
+
+        </div>
+
+        <!-- Artifact Footer -->
+        <div class="h-16 border-t border-[#EAEAEA] px-8 flex items-center justify-between bg-[#FAFAFA]/50 shrink-0">
+          <div class="text-xs text-gray-400">
+            Generated by <span class="font-medium text-gray-600">Ostia Strategic Agent</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-[#1C1B1A] bg-white border border-[#EAEAEA] rounded shadow-sm hover:shadow transition-all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              Export PDF
+            </button>
+            <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 hover:bg-black rounded shadow-sm hover:shadow transition-all">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
+              Share with LPs
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

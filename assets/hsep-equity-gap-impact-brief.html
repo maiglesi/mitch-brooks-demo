@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSEP Equity Gap Impact Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-page: #FAFAF8;
+      --bg-surface: #FFFFFF;
+      --border: #EAEAEA;
+      --text-primary: #1C1B1A;
+      --text-secondary: #5C5A56;
+      --accent-navy: #1E3A5F;
+      --shadow-float: 0 20px 40px -10px rgba(0,0,0,0.12);
+      --font-sans: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .page { max-width: 1000px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="flex flex-col bg-[var(--bg-surface)] border border-[var(--border)] rounded-[4px] overflow-hidden" style="box-shadow: var(--shadow-float);">
+      <div class="h-12 border-b border-[var(--border)] px-5 flex items-center justify-between bg-[#FAFAFA]">
+        <div class="flex items-center gap-2">
+          <span class="text-base">DOC</span>
+          <span class="text-[13px] font-semibold">HSEP Equity Gap Impact Brief</span>
+          <span class="px-2 py-0.5 rounded-[2px] font-mono text-[10px] uppercase tracking-wider bg-red-50 text-red-700">CONFIDENTIAL</span>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]"></div>
+        </div>
+      </div>
+
+      <div class="p-8 space-y-8">
+        <div class="flex justify-between items-end border-b border-[var(--border)] pb-4">
+          <div>
+            <h1 class="text-2xl font-semibold">Equity Gap Operating Brief</h1>
+            <p class="text-sm text-[var(--text-secondary)] mt-1 font-mono">Period: Q1 2026 | Prepared by MyCOO</p>
+          </div>
+          <div class="text-right">
+            <div class="inline-flex items-center gap-1.5 px-2 py-1 bg-red-50 text-red-700 rounded text-[10px] font-bold uppercase tracking-wider border border-red-100">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+              Internal
+            </div>
+            <p class="text-xs text-[var(--text-secondary)] mt-2">Sponsor: High Street Equity Partners</p>
+          </div>
+        </div>
+
+        <section>
+          <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-3">01. Executive Summary</h3>
+          <p class="text-sm text-[var(--text-primary)] leading-relaxed max-w-2xl">
+            High Street Equity Partners backs underrepresented founders in undercapitalized geographies. MyCOO delivers service-heavy operating support that compresses time to $100K ARR and documents impact outcomes for LP reporting.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-3">02. Portfolio Signals</h3>
+          <div class="grid grid-cols-4 gap-4">
+            <div class="p-4 bg-[var(--bg-page)] border border-[var(--border)] rounded">
+              <div class="text-[11px] uppercase text-[var(--text-secondary)]">Fund Size</div>
+              <div class="text-xl font-semibold text-[var(--accent-navy)]">$15M</div>
+              <div class="text-xs text-[var(--text-secondary)]">Seed fund</div>
+            </div>
+            <div class="p-4 bg-[var(--bg-page)] border border-[var(--border)] rounded">
+              <div class="text-[11px] uppercase text-[var(--text-secondary)]">Check Size</div>
+              <div class="text-xl font-semibold text-[var(--accent-navy)]">$100K-$300K</div>
+              <div class="text-xs text-[var(--text-secondary)]">Initial tickets</div>
+            </div>
+            <div class="p-4 bg-[var(--bg-page)] border border-[var(--border)] rounded">
+              <div class="text-[11px] uppercase text-[var(--text-secondary)]">ARR Floor</div>
+              <div class="text-xl font-semibold text-[var(--accent-navy)]">$100K+</div>
+              <div class="text-xs text-[var(--text-secondary)]">Post-revenue</div>
+            </div>
+            <div class="p-4 bg-[var(--bg-page)] border border-[var(--border)] rounded">
+              <div class="text-[11px] uppercase text-[var(--text-secondary)]">Portfolio</div>
+              <div class="text-xl font-semibold text-[var(--accent-navy)]">8+ Co.</div>
+              <div class="text-xs text-[var(--text-secondary)]">Seed stage</div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-3">03. Impact Highlights</h3>
+          <div class="border border-[var(--border)] rounded overflow-hidden">
+            <table class="w-full text-sm text-left">
+              <thead class="bg-[var(--bg-page)] text-[var(--text-secondary)] font-medium">
+                <tr>
+                  <th class="px-4 py-3">Company</th>
+                  <th class="px-4 py-3">Signal</th>
+                  <th class="px-4 py-3">Outcome</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[var(--border)]">
+                <tr>
+                  <td class="px-4 py-3 font-medium">ChargerHelp!</td>
+                  <td class="px-4 py-3 text-[var(--text-secondary)]">Clean Tech ops scale</td>
+                  <td class="px-4 py-3 font-mono text-[var(--text-primary)]">1,000+ techs trained</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium">Sober Sidekick</td>
+                  <td class="px-4 py-3 text-[var(--text-secondary)]">Community retention</td>
+                  <td class="px-4 py-3 font-mono text-[var(--text-primary)]">500K+ users</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium">Future of Work</td>
+                  <td class="px-4 py-3 text-[var(--text-secondary)]">Operator enablement</td>
+                  <td class="px-4 py-3 font-mono text-[var(--text-primary)]">3.4x sprint velocity</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="grid grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-3">04. Risks</h3>
+            <div class="flex flex-col gap-3">
+              <div class="flex gap-3 items-start p-3 border border-[var(--border)] rounded">
+                <div class="w-1.5 h-1.5 rounded-full mt-1.5 bg-amber-500"></div>
+                <div>
+                  <h4 class="text-sm font-semibold">Ops bandwidth</h4>
+                  <p class="text-xs text-[var(--text-secondary)]">Founder teams need repeatable playbooks to reduce manual lift.</p>
+                </div>
+              </div>
+              <div class="flex gap-3 items-start p-3 border border-[var(--border)] rounded">
+                <div class="w-1.5 h-1.5 rounded-full mt-1.5 bg-amber-500"></div>
+                <div>
+                  <h4 class="text-sm font-semibold">Reporting consistency</h4>
+                  <p class="text-xs text-[var(--text-secondary)]">LP impact reporting lacks standardized cadence.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-3">05. Recommended Actions</h3>
+            <ul class="list-disc list-outside ml-4 space-y-2">
+              <li class="text-sm">Deploy MyCOO founder readiness scorecard for each new investment.</li>
+              <li class="text-sm">Stand up a quarterly impact metrics pack across the portfolio.</li>
+              <li class="text-sm">Launch a service-heavy operating sprint for top three companies.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
