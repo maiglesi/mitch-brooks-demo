@@ -1710,6 +1710,667 @@ const renderPatternMatcher = () => {
     `;
 };
 
+const renderNetworkGraphVisualizer = () => {
+  const nodes = [
+    { id: "firm", name: VC_FUND, type: "firm", x: 50, y: 50, size: 56, color: "#1C1B1A" },
+    { id: "target", name: VC_TARGET, type: "target", x: 80, y: 22, size: 48, color: "#F59E0B" },
+    { id: "advisor", name: "Sarah Chen", type: "person", x: 66, y: 36, size: 40, color: "#14B8A6" },
+    { id: "operator", name: "David Kim", type: "person", x: 30, y: 32, size: 40, color: "#64748B" },
+    { id: "partner", name: "GlobalFoundries", type: "company", x: 22, y: 62, size: 44, color: "#3B82F6" },
+    { id: "alumni", name: "Stanford Network", type: "group", x: 60, y: 72, size: 36, color: "#8B5CF6" },
+  ];
+
+  const edges = [
+    { from: "firm", to: "advisor", label: "Strong", type: "strong" },
+    { from: "advisor", to: "target", label: "Advisor", type: "strong" },
+    { from: "firm", to: "operator", label: "Ex-Colleague", type: "direct" },
+    { from: "operator", to: "partner", label: "Board", type: "weak" },
+    { from: "firm", to: "alumni", label: "Network", type: "weak" },
+    { from: "alumni", to: "target", label: "Alumni", type: "weak" },
+  ];
+
+  const nodeBadge = (node) => {
+    if (node.type === "firm") return "F";
+    if (node.type === "target") return "T";
+    if (node.type === "person") return "P";
+    if (node.type === "group") return "G";
+    return "C";
+  };
+
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Network Intelligence: Path to ${VC_TARGET}</span>
+                    <span class="artifact-badge bg-emerald-100 text-emerald-700">3 PATHS FOUND</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex h-full -m-8 relative bg-[#FAFAF8] overflow-hidden">
+                <div class="absolute top-4 left-4 z-10 w-[320px]">
+                    <div class="bg-white p-2 rounded-[4px] shadow-sm border border-[#EAEAEA] flex items-center gap-2 mb-2">
+                        <span class="text-[12px] text-[#9CA3AF]">Search</span>
+                        <input type="text" placeholder="Find path to..." class="flex-1 text-[13px] outline-none placeholder-[#9CA3AF]" value="${VC_TARGET}" />
+                    </div>
+                    <div class="bg-white/90 backdrop-blur-sm p-3 rounded-[4px] border border-[#EAEAEA] shadow-sm">
+                        <div class="text-[11px] font-bold text-[#5C5A56] uppercase tracking-wider mb-2">Best Warm Intro</div>
+                        <div class="flex items-center gap-3 p-2 bg-[#F0FDF4] border border-[#DCFCE7] rounded-[4px]">
+                            <div class="w-8 h-8 rounded-full bg-[#14B8A6] flex items-center justify-center text-white text-[10px] font-bold">SC</div>
+                            <div>
+                                <div class="text-[12px] font-bold text-[#1C1B1A]">Sarah Chen</div>
+                                <div class="text-[10px] text-[#166534]">High Trust - Replying fast</div>
+                            </div>
+                            <span class="text-[11px] text-[#F59E0B] ml-auto font-bold">HOT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 relative h-full w-full">
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                        ${edges
+                          .map((edge) => {
+                            const start = nodes.find((node) => node.id === edge.from);
+                            const end = nodes.find((node) => node.id === edge.to);
+                            if (!start || !end) return "";
+                            const labelX = (start.x + end.x) / 2;
+                            const labelY = (start.y + end.y) / 2;
+                            const stroke =
+                              edge.type === "strong" ? "#F59E0B" : "#E5E7EB";
+                            const strokeWidth = edge.type === "strong" ? 2 : 1;
+                            const dash = edge.type === "weak" ? "4 4" : "0";
+                            return `
+                                <g>
+                                    <line x1="${start.x}%" y1="${start.y}%" x2="${end.x}%" y2="${end.y}%" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-dasharray="${dash}"></line>
+                                    <text x="${labelX}%" y="${labelY}%" fill="#5C5A56" font-size="10" text-anchor="middle" dy="-6">${edge.label}</text>
+                                </g>
+                            `;
+                          })
+                          .join("")}
+                    </svg>
+
+                    ${nodes
+                      .map(
+                        (node) => `
+                        <div class="absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center cursor-pointer group" style="left: ${node.x}%; top: ${node.y}%;">
+                            <div class="rounded-full shadow-md flex items-center justify-center border-2 border-white transition-shadow group-hover:shadow-lg" style="width: ${node.size}px; height: ${node.size}px; background-color: ${node.color};">
+                                <span class="text-white text-[14px] font-bold">${nodeBadge(node)}</span>
+                            </div>
+                            <div class="mt-2 bg-white/90 backdrop-blur px-2 py-0.5 rounded-[4px] border border-[#EAEAEA] shadow-sm">
+                                <span class="text-[11px] font-bold text-[#1C1B1A] whitespace-nowrap">${node.name}</span>
+                            </div>
+                        </div>
+                    `
+                      )
+                      .join("")}
+                </div>
+
+                <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur p-2 rounded-[4px] border border-[#EAEAEA] flex gap-4 text-[10px] text-[#5C5A56]">
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-[#14B8A6]"></div>Strong Intro</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-[#F59E0B]"></div>Target</div>
+                    <div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-[#E5E7EB]"></div>Weak Link</div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderPortfolioSynergyFinder = () => {
+  const synergies = [
+    {
+      id: 1,
+      source: { name: "RetailAI", sector: "Commerce" },
+      target: { name: "LogiTech", sector: "Supply Chain" },
+      score: 95,
+      reason: "Customer overlap: RetailAI clients need LogiTech's last-mile layer.",
+    },
+    {
+      id: 2,
+      source: { name: "HealthFlow", sector: "MedTech" },
+      target: { name: "SecureDocs", sector: "Security" },
+      score: 88,
+      reason: "EU expansion requires SecureDocs compliance rails.",
+    },
+    {
+      id: 3,
+      source: { name: "FinPulse", sector: "FinTech" },
+      target: { name: "BankOS", sector: "Infra" },
+      score: 72,
+      reason: "BankOS launching APIs requested in the last board cycle.",
+    },
+  ];
+
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Portfolio Synergy Engine</span>
+                    <span class="artifact-badge bg-indigo-100 text-indigo-700">SCANNING</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex h-full -m-8">
+                <div class="w-[240px] border-r border-[#EAEAEA] bg-[#FAFAF8] p-5 flex flex-col gap-6">
+                    <div>
+                        <h4 class="text-[11px] font-bold text-[#5C5A56] uppercase tracking-wider mb-3">Scan Scope</h4>
+                        <div class="space-y-2 text-[13px] text-[#1C1B1A]">
+                            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#1C1B1A]"></span>Current Portfolio (42)</div>
+                            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#1C1B1A]"></span>Alumni Founders (120)</div>
+                            <div class="flex items-center gap-2 text-[#5C5A56]"><span class="w-2 h-2 rounded-full bg-[#E5E7EB]"></span>Corporate Partners</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[11px] font-bold text-[#5C5A56] uppercase tracking-wider mb-3">Synergy Type</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-[#F3F4F6] text-[#4B5563] text-[11px] rounded">Commercial</span>
+                            <span class="px-2 py-1 bg-[#1C1B1A] text-white text-[11px] rounded">Technical</span>
+                            <span class="px-2 py-1 bg-[#F3F4F6] text-[#4B5563] text-[11px] rounded">Hiring</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto p-3 bg-[#EEF2FF] border border-[#E0E7FF] rounded-[4px] text-[11px] text-[#4338CA]">
+                        <strong>AI Note:</strong> 3 new synergies found since the last board cycle.
+                    </div>
+                </div>
+                <div class="flex-1 bg-white p-6 overflow-y-auto">
+                    <h3 class="text-[16px] font-semibold text-[#1C1B1A] mb-6">High-Value Connections</h3>
+                    <div class="space-y-4">
+                        ${synergies
+                          .map(
+                            (item) => `
+                            <div class="border border-[#EAEAEA] rounded-[4px] overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="bg-[#FAFAF8] px-4 py-3 border-b border-[#EAEAEA] flex justify-between items-center">
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[14px] font-semibold text-[#1C1B1A]">${item.source.name}</span>
+                                            <span class="text-[11px] text-[#9CA3AF] bg-white px-1.5 py-0.5 rounded border border-[#EAEAEA]">${item.source.sector}</span>
+                                        </div>
+                                        <span class="text-[12px] text-[#9CA3AF]">-></span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[14px] font-semibold text-[#1C1B1A]">${item.target.name}</span>
+                                            <span class="text-[11px] text-[#9CA3AF] bg-white px-1.5 py-0.5 rounded border border-[#EAEAEA]">${item.target.sector}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[11px] text-[#5C5A56] uppercase tracking-wider font-bold">Match</span>
+                                        <div class="w-8 h-8 rounded-full bg-[#ECFCCB] flex items-center justify-center text-[12px] font-bold text-[#365314] border border-[#BEF264]">
+                                            ${item.score}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-4 flex gap-4 items-start">
+                                    <div class="flex-1">
+                                        <p class="text-[13px] text-[#5C5A56] leading-relaxed mb-3">${item.reason}</p>
+                                        <div class="flex gap-2">
+                                            <span class="text-[10px] bg-[#F3F4F6] text-[#4B5563] px-2 py-1 rounded">Commercial Intro</span>
+                                            <span class="text-[10px] bg-[#F3F4F6] text-[#4B5563] px-2 py-1 rounded">Ops Partnership</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-[140px] flex flex-col gap-2">
+                                        <button class="w-full py-1.5 bg-[#1C1B1A] text-white text-[12px] font-medium rounded hover:bg-black">Draft Intro</button>
+                                        <button class="w-full py-1.5 bg-white border border-[#EAEAEA] text-[#5C5A56] text-[12px] font-medium rounded hover:bg-[#FAFAF8]">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderPortfolioTalentBank = () => {
+  const candidates = [
+    {
+      name: "Alex Rivera",
+      role: "Staff Engineer",
+      prev: "Stripe, Uber",
+      match: 98,
+      status: "Interviewing",
+      company: VC_TARGET,
+      tags: ["Distributed Systems", "Rust"],
+    },
+    {
+      name: "Sarah Chen",
+      role: "VP Marketing",
+      prev: "Notion",
+      match: 92,
+      status: "Offer Pending",
+      company: "HealthFlow",
+      tags: ["Product Marketing", "B2B"],
+    },
+    {
+      name: "David Kim",
+      role: "Founding Designer",
+      prev: "Airbnb",
+      match: 88,
+      status: "New",
+      company: "Stealth Co.",
+      tags: ["Design Systems", "Figma"],
+    },
+  ];
+
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Portfolio Talent Pool</span>
+                    <span class="artifact-badge bg-blue-100 text-blue-700">12 NEW</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex h-full -m-8 flex-col">
+                <div class="h-[72px] border-b border-[#EAEAEA] flex items-center px-6 justify-between bg-white">
+                    <div class="relative w-[320px]">
+                        <input type="text" placeholder="Search by skill, role, or ex-employer..." class="w-full pl-4 pr-4 py-2 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px] text-[13px] outline-none focus:border-[#3B82F6]" />
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-end">
+                            <span class="text-[10px] text-[#5C5A56] uppercase tracking-wider">Active Roles</span>
+                            <span class="text-[14px] font-bold text-[#1C1B1A]">42</span>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[10px] text-[#5C5A56] uppercase tracking-wider">Vetted Candidates</span>
+                            <span class="text-[14px] font-bold text-[#14B8A6]">158</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 flex bg-[#FAFAF8]">
+                    <div class="w-[200px] border-r border-[#EAEAEA] py-4">
+                        <div class="px-4 mb-2 text-[11px] font-bold text-[#9CA3AF] uppercase tracking-wider">Functions</div>
+                        <div class="space-y-0.5">
+                            <div class="px-4 py-2 bg-white border-r-2 border-[#1C1B1A] text-[13px] font-medium text-[#1C1B1A] flex justify-between">
+                                Engineering <span class="text-[#9CA3AF]">18</span>
+                            </div>
+                            <div class="px-4 py-2 text-[13px] text-[#5C5A56] hover:bg-white hover:text-[#1C1B1A] flex justify-between">
+                                Product <span class="text-[#9CA3AF]">8</span>
+                            </div>
+                            <div class="px-4 py-2 text-[13px] text-[#5C5A56] hover:bg-white hover:text-[#1C1B1A] flex justify-between">
+                                Design <span class="text-[#9CA3AF]">4</span>
+                            </div>
+                            <div class="px-4 py-2 text-[13px] text-[#5C5A56] hover:bg-white hover:text-[#1C1B1A] flex justify-between">
+                                GTM/Sales <span class="text-[#9CA3AF]">12</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 p-6 overflow-y-auto">
+                        <div class="space-y-3">
+                            ${candidates
+                              .map(
+                                (candidate) => `
+                                <div class="bg-white border border-[#EAEAEA] rounded-[4px] p-4 hover:shadow-md transition-shadow group cursor-pointer">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-full bg-[#F3F4F6] flex items-center justify-center text-[14px] font-bold text-[#5C5A56]">
+                                                ${candidate.name
+                                                  .split(" ")
+                                                  .map((part) => part[0])
+                                                  .join("")}
+                                            </div>
+                                            <div>
+                                                <div class="text-[14px] font-bold text-[#1C1B1A]">${candidate.name}</div>
+                                                <div class="text-[12px] text-[#5C5A56]">${candidate.role} - Ex-${candidate.prev}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-[11px] font-bold px-2 py-0.5 rounded inline-block mb-1 ${
+                                              candidate.status === "Interviewing"
+                                                ? "bg-[#DBEAFE] text-[#1E40AF]"
+                                                : candidate.status === "Offer Pending"
+                                                  ? "bg-[#DCFCE7] text-[#166534]"
+                                                  : "bg-[#F3F4F6] text-[#4B5563]"
+                                            }">
+                                                ${candidate.status}
+                                            </div>
+                                            <div class="text-[11px] text-[#9CA3AF]">for ${candidate.company}</div>
+                                        </div>
+                                    </div>
+                                    <div class="pl-[52px] flex items-center gap-2">
+                                        ${candidate.tags
+                                          .map(
+                                            (tag) => `
+                                            <span class="px-2 py-0.5 border border-[#EAEAEA] rounded text-[11px] text-[#5C5A56] bg-[#FAFAF8]">${tag}</span>
+                                        `
+                                          )
+                                          .join("")}
+                                        <div class="ml-auto text-[12px] font-bold text-[#166534]">${candidate.match}% Match</div>
+                                    </div>
+                                </div>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderCapTableSimulator = () => {
+  const scenarios = [
+    { name: "Base Case ($500M)", segments: [20, 45, 20, 15] },
+    { name: "Downside ($100M)", segments: [45, 35, 15, 5] },
+    { name: "IPO ($2B)", segments: [5, 45, 35, 15] },
+  ];
+  const colors = ["#EF4444", "#1C1B1A", "#F59E0B", "#14B8A6"];
+  const labels = ["Liq Pref", "Investors", "Founders", "Option Pool"];
+
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Exit Waterfall Simulator</span>
+                    <span class="artifact-badge bg-emerald-100 text-emerald-700">SCENARIO MODE</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex h-full -m-8">
+                <div class="w-[280px] bg-[#FAFAF8] border-r border-[#EAEAEA] p-5 flex flex-col gap-6">
+                    <div>
+                        <h4 class="text-[11px] font-bold text-[#5C5A56] uppercase tracking-wider mb-3">Series B Term Sheet</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[12px] text-[#1C1B1A] font-medium block mb-1">Pre-Money Valuation</label>
+                                <div class="flex items-center bg-white border border-[#EAEAEA] rounded px-2 h-8">
+                                    <span class="text-[#9CA3AF] text-[12px]">$</span>
+                                    <input type="text" value="45,000,000" class="flex-1 text-[13px] outline-none ml-1 text-[#1C1B1A]" readonly />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[12px] text-[#1C1B1A] font-medium block mb-1">Investment Amount</label>
+                                <div class="flex items-center bg-white border border-[#EAEAEA] rounded px-2 h-8">
+                                    <span class="text-[#9CA3AF] text-[12px]">$</span>
+                                    <input type="text" value="12,000,000" class="flex-1 text-[13px] outline-none ml-1 text-[#1C1B1A]" readonly />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[12px] text-[#1C1B1A] font-medium block mb-1">Liquidation Pref.</label>
+                                <div class="flex items-center justify-between bg-white border border-[#EAEAEA] rounded px-2 h-8">
+                                    <span class="text-[13px] text-[#1C1B1A]">1x Non-Participating</span>
+                                    <span class="text-[11px] text-[#9CA3AF]">Settings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[11px] font-bold text-[#5C5A56] uppercase tracking-wider mb-3">Simulate Exit</h4>
+                        <div class="h-2 w-full bg-[#E5E7EB] rounded-full overflow-hidden">
+                            <div class="h-full bg-[#1C1B1A]" style="width: 55%;"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] text-[#9CA3AF] mt-1">
+                            <span>$50M</span>
+                            <span>$2B+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 p-8 flex flex-col">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <h3 class="text-[18px] font-semibold text-[#1C1B1A]">Payout Distribution</h3>
+                            <p class="text-[13px] text-[#5C5A56]">Returns across three scenarios.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-right">
+                                <div class="text-[11px] text-[#5C5A56]">Fund MOIC</div>
+                                <div class="text-[16px] font-bold text-[#14B8A6]">4.2x</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[11px] text-[#5C5A56]">Founder Ownership</div>
+                                <div class="text-[16px] font-bold text-[#1C1B1A]">18.4%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        ${scenarios
+                          .map(
+                            (scenario) => `
+                            <div>
+                                <div class="text-[12px] text-[#5C5A56] mb-2">${scenario.name}</div>
+                                <div class="flex h-4 w-full bg-[#F3F4F6] rounded overflow-hidden">
+                                    ${scenario.segments
+                                      .map(
+                                        (value, index) => `
+                                        <div class="h-full" style="width: ${value}%; background: ${colors[index]};"></div>
+                                    `
+                                      )
+                                      .join("")}
+                                </div>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                        <div class="flex flex-wrap gap-3 text-[11px] text-[#5C5A56] mt-4">
+                            ${labels
+                              .map(
+                                (label, index) => `
+                                <span class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full" style="background: ${colors[index]};"></span>
+                                    ${label}
+                                </span>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderLPCommitmentForecaster = () => {
+  const chartData = [
+    { month: "Jan", value: 20 },
+    { month: "Feb", value: 35 },
+    { month: "Mar", value: 50 },
+    { month: "Apr", value: 75 },
+    { month: "May", value: 92 },
+    { month: "Jun", value: 110 },
+  ];
+  const lps = [
+    { name: "Ontario Teachers", status: "Verbal", prob: 90, amt: "$15M" },
+    { name: "Sequoia Heritage", status: "Diligence", prob: 60, amt: "$10M" },
+    { name: "Yale Endowment", status: "First Meeting", prob: 20, amt: "$5M" },
+    { name: "Sovereign Wealth X", status: "Closing", prob: 95, amt: "$25M" },
+  ];
+
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Fund Close Prediction Model</span>
+                    <span class="artifact-badge bg-amber-100 text-amber-800">LIVE FORECAST</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex flex-col h-full -m-8">
+                <div class="h-[55%] border-b border-[#EAEAEA] p-6 flex gap-6">
+                    <div class="w-[200px] flex flex-col gap-4">
+                        <div>
+                            <div class="text-[11px] text-[#5C5A56] uppercase tracking-wider mb-1">Current Commit</div>
+                            <div class="text-[24px] font-bold text-[#1C1B1A]">$45M</div>
+                            <div class="text-[11px] text-[#5C5A56]">37.5% of Goal</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-[#5C5A56] uppercase tracking-wider mb-1">Projected Q2</div>
+                            <div class="text-[24px] font-bold text-[#14B8A6]">$110M</div>
+                            <div class="text-[11px] text-[#166534]">On Track</div>
+                        </div>
+                        <div class="mt-auto p-3 bg-[#FFFBEB] border border-[#FEF3C7] rounded-[4px] text-[11px] text-[#92400E]">
+                            <strong>Gap Alert:</strong> Need two more anchors to hit June close.
+                        </div>
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col">
+                        <div class="text-[13px] text-[#5C5A56] mb-4">Projected commitments vs goal.</div>
+                        <div class="flex items-end gap-3 h-full pb-4">
+                            ${chartData
+                              .map(
+                                (point) => `
+                                <div class="flex flex-col items-center gap-2 flex-1">
+                                    <div class="w-full bg-[#E5E7EB] rounded-t" style="height: 120px;">
+                                        <div class="w-full bg-[#14B8A6] rounded-t" style="height: ${Math.min(point.value, 120)}px;"></div>
+                                    </div>
+                                    <span class="text-[10px] text-[#9CA3AF]">${point.month}</span>
+                                </div>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 bg-[#FAFAF8] p-6 overflow-y-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="text-[13px] font-semibold text-[#1C1B1A] uppercase tracking-wider">Active Discussions</h4>
+                        <button class="text-[11px] text-[#3B82F6] font-medium hover:underline">View CRM -></button>
+                    </div>
+                    <table class="w-full text-left border-collapse text-[13px]">
+                        <thead>
+                            <tr class="text-[11px] text-[#5C5A56] border-b border-[#EAEAEA]">
+                                <th class="pb-2 font-medium uppercase tracking-wider pl-2">LP Name</th>
+                                <th class="pb-2 font-medium uppercase tracking-wider">Stage</th>
+                                <th class="pb-2 font-medium uppercase tracking-wider">Probability</th>
+                                <th class="pb-2 font-medium uppercase tracking-wider">Exp. Commit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${lps
+                              .map(
+                                (lp) => `
+                                <tr class="border-b border-[#EAEAEA] last:border-0 hover:bg-white transition-colors">
+                                    <td class="py-3 pl-2 font-medium text-[#1C1B1A]">${lp.name}</td>
+                                    <td class="py-3 text-[#5C5A56]">${lp.status}</td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-16 h-1.5 bg-[#E5E7EB] rounded-full overflow-hidden">
+                                                <div class="h-full bg-[#14B8A6]" style="width: ${lp.prob}%;"></div>
+                                            </div>
+                                            <span class="text-[11px] text-[#5C5A56]">${lp.prob}%</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 font-mono text-[#1C1B1A]">${lp.amt}</td>
+                                </tr>
+                            `
+                              )
+                              .join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+const renderBoardDeckAnalyzer = () => {
+  return `
+        <div class="artifact-card w-full h-[600px] flex flex-col font-sans">
+            <div class="artifact-header">
+                <div class="artifact-title-group">
+                    <span class="artifact-title">Board Deck Analyst: ${VC_TARGET}</span>
+                    <span class="artifact-badge bg-amber-100 text-amber-800">PROCESSING</span>
+                </div>
+                <div class="artifact-controls">
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                    <div class="artifact-dot"></div>
+                </div>
+            </div>
+            <div class="flex h-full -m-8">
+                <div class="w-[55%] bg-[#E5E5E5] p-6 flex flex-col items-center relative overflow-hidden">
+                    <div class="bg-white shadow-lg w-full h-full max-w-[400px] p-8 flex flex-col gap-4">
+                        <div class="w-1/3 h-6 bg-[#1C1B1A] mb-8"></div>
+                        <div class="w-3/4 h-8 bg-[#E5E7EB] rounded"></div>
+                        <div class="w-1/2 h-4 bg-[#F3F4F6] rounded"></div>
+                        <div class="mt-8 space-y-4">
+                            <div class="w-full h-32 bg-[#F3F4F6] rounded"></div>
+                            <div class="space-y-2">
+                                <div class="w-full h-2 bg-[#E5E7EB] rounded"></div>
+                                <div class="w-full h-2 bg-[#E5E7EB] rounded"></div>
+                                <div class="w-2/3 h-2 bg-[#E5E7EB] rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-[#1C1B1A]/80 text-white px-3 py-1 rounded-full text-[11px] font-medium">
+                        Page 4 of 22
+                    </div>
+                </div>
+                <div class="w-[45%] bg-white flex flex-col border-l border-[#EAEAEA]">
+                    <div class="p-5 border-b border-[#EAEAEA]">
+                        <h3 class="text-[14px] font-semibold text-[#1C1B1A] mb-1">Key Metrics Extracted</h3>
+                        <div class="grid grid-cols-2 gap-3 mt-3">
+                            <div class="p-2 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[10px] text-[#5C5A56] uppercase">ARR</div>
+                                <div class="text-[16px] font-bold text-[#1C1B1A]">Pending</div>
+                            </div>
+                            <div class="p-2 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[10px] text-[#5C5A56] uppercase">Burn</div>
+                                <div class="text-[16px] font-bold text-[#1C1B1A]">Pending</div>
+                            </div>
+                            <div class="p-2 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[10px] text-[#5C5A56] uppercase">Runway</div>
+                                <div class="text-[16px] font-bold text-[#1C1B1A]">Pending</div>
+                            </div>
+                            <div class="p-2 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[10px] text-[#5C5A56] uppercase">CAC</div>
+                                <div class="text-[16px] font-bold text-[#1C1B1A]">Pending</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-5">
+                        <h3 class="text-[14px] font-semibold text-[#1C1B1A] mb-3">AI Findings & Open Questions</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-[#FFFBEB] border border-[#FEF3C7] rounded-[4px]">
+                                <div class="text-[12px] font-bold text-[#92400E]">Inconsistent churn data</div>
+                                <p class="text-[11px] text-[#B45309] leading-relaxed mt-1">
+                                    Slide 6 reports 2% monthly churn, but the revenue waterfall implies 4.5%. Ask CFO to reconcile.
+                                </p>
+                            </div>
+                            <div class="p-3 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[12px] font-bold text-[#1C1B1A]">Suggested Question</div>
+                                <p class="text-[11px] text-[#5C5A56]">
+                                    "Sales cycle increased from 45 to 60 days. Is this due to the new enterprise focus?"
+                                </p>
+                            </div>
+                            <div class="p-3 bg-[#FAFAF8] border border-[#EAEAEA] rounded-[4px]">
+                                <div class="text-[12px] font-bold text-[#1C1B1A]">Suggested Question</div>
+                                <p class="text-[11px] text-[#5C5A56]">
+                                    "Engineering headcount is flat but roadmap is accelerating. Are we accruing tech debt?"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-[#EAEAEA]">
+                        <button class="w-full py-2 bg-[#1C1B1A] text-white rounded-[4px] text-[13px] font-medium">
+                            View Full Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
 const renderDealMemoGenerator = () => {
   const sections = [
     { id: "thesis", label: "Investment Thesis", status: "complete" },

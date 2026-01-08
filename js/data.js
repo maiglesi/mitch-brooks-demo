@@ -207,7 +207,296 @@ const SLIDES = [
       },
     ],
   },
-    {
+  {
+    id: "mission-hico",
+    type: "slide",
+    content: `
+            <div class="deck-grid-2">
+                <div>
+                    <span class="deck-label text-emerald-600">MISSION 01: CREATION</span>
+                    <h2 class="deck-title">Instant Digital Reality.</h2>
+                    <p class="deck-subtitle text-base">HICO Construction. A traditional business needing a digital face. The user said: "Build me a site." MyCOO did the rest.</p>
+                    
+                    <div class="mt-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="font-mono text-xs bg-slate-100 px-2 py-1 rounded">Step 1</span>
+                            <span class="text-sm">Gemini researches competitors & trends.</span>
+                        </div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="font-mono text-xs bg-slate-100 px-2 py-1 rounded">Step 2</span>
+                            <span class="text-sm">Claude writes SEO-optimized copy.</span>
+                        </div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="font-mono text-xs bg-slate-100 px-2 py-1 rounded">Step 3</span>
+                            <span class="text-sm">Swarm generates logo & brand palette.</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">Result</span>
+                            <span class="text-sm font-bold text-emerald-600">Full Website Deployed in 20 Mins.</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary mt-8" onclick="App.openViewer('assets/hico-website-mockup.html', 'HICO Construction Website', 'mode-web')">
+                        View Generated Site →
+                    </button>
+                </div>
+                <div class="relative h-full bg-slate-100 rounded-lg overflow-hidden border border-slate-200 group cursor-pointer shadow-lg transition-transform hover:scale-[1.02]" onclick="App.openViewer('assets/hico-website-mockup.html', 'HICO Construction Website', 'mode-web')">
+                     <iframe src="assets/hico-website-mockup.html" class="w-full h-full pointer-events-none border-none"></iframe>
+                     <div class="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors flex items-center justify-center">
+                        <span class="opacity-0 group-hover:opacity-100 bg-white/90 px-4 py-2 rounded-full shadow-sm text-xs font-bold transition-opacity">Click to Preview</span>
+                     </div>
+                </div>
+            </div>
+        `,
+    cooMessage:
+      "This wasn't a template. The agents wrote the code, wrote the copy, and designed the assets. This is generative product development.",
+    agents: [
+      {
+        name: "Design Agent",
+        status: "done",
+        statusText: "Assets Deployed",
+        model: "gemini",
+      },
+      {
+        name: "Dev Agent",
+        status: "done",
+        statusText: "Code Shipped",
+        model: "gpt",
+      },
+    ],
+  },
+  {
+    id: "mission-orbiss",
+    type: "slide",
+    content: `
+            <div class="flex flex-col h-full">
+                <div class="mb-8">
+                    <span class="deck-label text-purple-600">MISSION 02: STRATEGY</span>
+                    <h2 class="deck-title">Deep Work, Democratized.</h2>
+                    <p class="deck-subtitle">Orbiss Tax Advisory. Complex international expansion. We deployed a legal swarm to do the work of a partner-level consultant.</p>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4 flex-1">
+                    <div class="deck-card bg-purple-50/50 border-purple-100 col-span-1 justify-between">
+                        <div>
+                            <div class="text-sm font-bold text-purple-900 mb-1">Orbiss Advisory</div>
+                            <div class="text-xs text-purple-700">Strategic Client</div>
+                        </div>
+                        <div>
+                            <div class="deck-stat-huge text-purple-900" style="font-size: 48px;">889</div>
+                            <div class="text-xs font-mono text-purple-700 mt-1">LINES OF ANALYSIS</div>
+                        </div>
+                    </div>
+                    <div class="col-span-3 bg-white border border-slate-200 rounded-lg overflow-hidden relative shadow-md">
+                        <div class="absolute inset-0 overflow-y-auto p-8 font-mono text-xs text-slate-600 leading-relaxed bg-slate-50">
+                            <p># European Expansion Strategy v1.0</p>
+                            <p class="text-slate-400">Generated by MyCOO Strategic Swarm</p>
+                            <br/>
+                            <p>## 1. Executive Summary</p>
+                            <p>The opportunity for US-based tax advisory in the EU market represents a $4B TAM...</p>
+                            <br/>
+                            <p>## 2. Regulatory Compliance (NYLLCTA)</p>
+                            <p>Analysis of New York LLC Transparency Act implications for cross-border entities...</p>
+                            <br/>
+                            <p>## 3. Financial Projections (3-Year)</p>
+                            <p>| Year | Revenue | EBITDA |</p>
+                            <p>|------|---------|--------|</p>
+                            <p>| 2026 | $2.4M   | $0.4M  |</p>
+                            <br/>
+                            <p class="text-blue-600">[... 800+ lines of analysis ...]</p>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none flex items-end justify-center pb-8">
+                            <button class="btn-primary shadow-lg pointer-events-auto bg-purple-600 hover:bg-purple-700 text-white" onclick="App.openViewer('assets/european-expansion-strategy.html', 'Orbiss Strategy', 'doc')">
+                                Read Full Document →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+    cooMessage:
+      "Most AI summarizes. MyCOO analyzes. We handled complex tax law, financial modeling, and market entry strategy. This is high-value, billable work.",
+    agents: [
+      {
+        name: "Legal Agent",
+        status: "done",
+        statusText: "Regulatory Analysis",
+        model: "claude",
+      },
+      {
+        name: "Finance Agent",
+        status: "done",
+        statusText: "Financial Modeling",
+        model: "gpt",
+      },
+    ],
+  },
+  {
+    id: "mission-neuromart",
+    type: "slide",
+    content: `
+            <div class="deck-grid-2">
+                <!-- Left: Text -->
+                <div>
+                    <span class="deck-label text-orange-600">MISSION 03: RECRUITMENT</span>
+                    <h2 class="deck-title">Attracting Top Tier Talent.</h2>
+                    <p class="deck-subtitle text-base">Abiy built Walmart's location platform and exited the "Amazon of Ethiopia". He was building his own retail AI, saw MyCOO, and decided to join us instead.</p>
+                    
+                    <div class="mt-8 bg-orange-50 p-6 rounded-lg border border-orange-100">
+                        <div class="flex items-center gap-4 mb-4">
+                             <div class="w-12 h-12 bg-orange-200 rounded-full flex items-center justify-center text-orange-800 font-bold text-xl">A</div>
+                             <div>
+                                <div class="font-bold text-sm text-slate-900">Abiy's Story</div>
+                                <div class="text-xs text-secondary">Former Chegg | Walmart Platform Lead</div>
+                             </div>
+                        </div>
+                        <p class="text-sm text-slate-700 italic">"I've built massive retail systems. MyCOO is the platform I was trying to build. I want to lead the retail vertical here."</p>
+                    </div>
+
+                    <button class="btn-primary mt-8 bg-orange-600 hover:bg-orange-700 text-white" onclick="App.openViewer('https://maiglesi.github.io/neuromart-deck/', 'Neuromart Deck', 'deck')">
+                        View Neuromart Vision →
+                    </button>
+                </div>
+
+                <!-- Right: Visual -->
+                <div class="relative h-full w-full bg-[#F4F4F0] rounded-lg border border-slate-200 shadow-xl overflow-hidden group cursor-pointer" onclick="App.openViewer('https://maiglesi.github.io/neuromart-deck/', 'Neuromart Deck', 'deck')">
+                    
+                    <!-- Swiss Graph Paper Background -->
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(26,26,26,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(26,26,26,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
+                    <!-- Slide Content -->
+                    <div class="relative h-full flex flex-col p-12">
+                        <!-- Top Bar -->
+                        <div class="flex justify-between items-center border-b border-[#1A1A1A] pb-4 mb-8">
+                            <span class="font-sans font-bold text-[#1A1A1A] text-xs tracking-widest">DEC 2025</span>
+                            <span class="font-sans font-bold text-[#1A1A1A] text-xs tracking-widest">CONFIDENTIAL</span>
+                        </div>
+
+                        <!-- Main Title Area -->
+                        <div class="flex-1 flex flex-col justify-center border-l-[8px] border-[#C04E35] pl-8">
+                            <div class="font-sans font-extrabold text-[#1A1A1A] leading-[0.8] mb-4" style="font-size: 5rem;">
+                                N<span style="color:#C04E35">M</span>
+                            </div>
+                            <h3 class="font-serif text-[#1A1A1A] text-4xl font-bold uppercase tracking-tight mb-4">Neuromart</h3>
+                            <p class="font-sans text-[#1A1A1A] text-lg tracking-widest">
+                                Retail Science. <span style="color:#C04E35">Applied.</span>
+                            </p>
+                            
+                            <div class="mt-12 pt-6 border-t border-[#1A1A1A] inline-block">
+                                <span class="block font-sans text-[10px] text-[#C04E35] font-bold tracking-widest mb-1">PRESENTED BY</span>
+                                <div class="font-sans font-bold text-[#1A1A1A] text-sm">Abiy Selassie</div>
+                                <div class="font-sans text-[#1A1A1A] text-xs opacity-70">Founder & CEO</div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="mt-8 pt-4 border-t border-[#1A1A1A] flex justify-between items-end font-sans text-[10px] text-[#1A1A1A]">
+                            <span>01 / 12</span>
+                            <span>AGENTIC AI FOR MID-MARKET RETAIL</span>
+                        </div>
+                    </div>
+
+                    <!-- Hover Overlay -->
+                    <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
+                        <span class="bg-[#C04E35] text-white px-6 py-3 rounded-sm text-sm font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 font-sans tracking-wide uppercase">Open Deck</span>
+                    </div>
+                </div>
+            </div>
+        `,
+    cooMessage:
+      "Great platforms attract great builders. We aren't just winning customers; we're winning the talent war against major tech companies.",
+    agents: [
+      {
+        name: "Recruiting",
+        status: "done",
+        statusText: "Talent Acquired",
+        model: "claude",
+      },
+    ],
+  },
+  {
+    id: "revenue-engine",
+    type: "slide",
+    content: `
+            <div class="deck-grid-2">
+                <!-- Text Content -->
+                <div>
+                    <span class="deck-label text-blue-600">MISSION 04: INTELLIGENCE</span>
+                    <h2 class="deck-title">Superhuman Sales Ops.</h2>
+                    <p class="deck-subtitle text-base">E. & J. Gallo. The goal: Win the account. The method: Total information dominance.</p>
+                    
+                    <div class="mt-8 bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <div class="text-sm font-bold text-blue-900 mb-2">TARGET: E. & J. Gallo Winery</div>
+                        <ul class="space-y-2 text-sm text-blue-800">
+                            <li class="flex items-start gap-2"><span class="mt-1 text-blue-600 font-bold">&bull;</span> Deep Web Research (News, Earnings, Podcasts)</li>
+                            <li class="flex items-start gap-2"><span class="mt-1 text-blue-600 font-bold">&bull;</span> Psychological Profiling of Decision Makers</li>
+                            <li class="flex items-start gap-2"><span class="mt-1 text-blue-600 font-bold">&bull;</span> "Trojan Horse" Strategy Development</li>
+                        </ul>
+                    </div>
+
+                    <button class="btn-primary mt-8 bg-blue-600 hover:bg-blue-700" onclick="App.openViewer('assets/Megan-Putney-Gallo-Analysis.html', 'Megan Putney Analysis', 'doc')">
+                        Open Sales Dossier →
+                    </button>
+                </div>
+
+                <!-- Visual Content (Dossier Preview) -->
+                <div class="relative h-full w-full bg-white rounded-lg border border-slate-200 shadow-2xl overflow-hidden transform rotate-2 hover:rotate-0 transition-all duration-500 cursor-pointer group" onclick="App.openViewer('assets/Megan-Putney-Gallo-Analysis.html', 'Megan Putney Analysis', 'doc')">
+                    
+                    <!-- Document Header -->
+                    <div class="h-4 bg-blue-600 w-full"></div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <div class="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">CONFIDENTIAL ANALYSIS</div>
+                                <h3 class="text-2xl font-serif font-bold text-slate-900">E. & J. Gallo Winery</h3>
+                                <div class="text-sm text-slate-500 mt-1">Strategic Account Intelligence</div>
+                            </div>
+                            <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-bold border border-slate-200">MP</div>
+                        </div>
+
+                        <!-- Content Preview -->
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-xs font-bold text-slate-900 uppercase border-b border-slate-100 pb-1 mb-2">Executive Summary</div>
+                                <p class="text-[10px] text-slate-600 leading-relaxed">
+                                    Megan Putney (Director, Commerce Marketing) is driving a digital transformation initiative focused on omnichannel acceleration...
+                                </p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                                    <div class="text-[9px] font-bold text-slate-500 uppercase mb-1">Key Pain Point</div>
+                                    <div class="text-[10px] font-semibold text-slate-800">Data Fragmentation</div>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                                    <div class="text-[9px] font-bold text-slate-500 uppercase mb-1">Winning Angle</div>
+                                    <div class="text-[10px] font-semibold text-slate-800">Unified Commerce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-8">
+                        <span class="bg-blue-600 text-white shadow-lg px-6 py-3 rounded-full text-sm font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                            View Full Analysis
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `,
+    cooMessage:
+      "This is how teams win. No more cold calls. No more guessing. MyCOO gives every employee the intelligence of a dedicated research team.",
+    agents: [
+      {
+        name: "Sales Agent",
+        status: "done",
+        statusText: "Dossier Complete",
+        model: "claude",
+      },
+    ],
+  },
+  {
     id: "thesis",
     type: "slide",
     content: `
